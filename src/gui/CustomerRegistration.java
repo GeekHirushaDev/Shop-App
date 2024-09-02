@@ -22,14 +22,14 @@ public class CustomerRegistration extends javax.swing.JFrame {
      */
     public CustomerRegistration() {
         initComponents();
-        loadCustomer();
+        loadCustomer("first_name", "ASC");
     }
 
-    private void loadCustomer() {
+    private void loadCustomer(String column, String orderby) {
 
         try {
 
-            ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `customer` ORDER BY `first_name` ASC");
+            ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `customer` ORDER BY `" + column + "` " + orderby + "");
 
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             model.setRowCount(0);
@@ -306,7 +306,7 @@ public class CustomerRegistration extends javax.swing.JFrame {
 
                     MySQL2.executeIUD("INSERT INTO `customer`(`mobile`, `first_name`, `last_name`, `email`, `point`)"
                             + "VALUES('" + mobile + "','" + fname + "','" + lname + "','" + email + "','0')");
-                    loadCustomer();
+                    loadCustomer("first_name", "ASC");
                     reset();
                 }
             } catch (Exception e) {
@@ -346,7 +346,7 @@ public class CustomerRegistration extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         reset();
-        loadCustomer();
+        loadCustomer("first_name", "ASC");
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -387,7 +387,7 @@ public class CustomerRegistration extends javax.swing.JFrame {
 
                 if (canUpdate) {
                     MySQL2.executeIUD("UPDATE `customer` SET `first_name` = '" + fname + "', `last_name` = '" + lname + "', `email` = '" + email + "' WHERE `mobile` = '" + mobile + "'");
-                    loadCustomer();
+                    loadCustomer("first_name", "ASC");
                     reset();
                 }
 
@@ -399,6 +399,18 @@ public class CustomerRegistration extends javax.swing.JFrame {
 
     private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
         // TODO add your handling code here:
+
+        int sort = jComboBox1.getSelectedIndex();
+
+        if (sort == 0) {
+            loadCustomer("first_name", "ASC");
+        } else if (sort == 1) {
+            loadCustomer("first_name", "DESC");
+        } else if (sort == 2) {
+            loadCustomer("point", "ASC");
+        } else if (sort == 3) {
+            loadCustomer("point", "DESC");
+        }
 
     }//GEN-LAST:event_jComboBox1ItemStateChanged
 
