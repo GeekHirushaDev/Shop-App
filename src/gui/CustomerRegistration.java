@@ -211,6 +211,11 @@ public class CustomerRegistration extends javax.swing.JFrame {
         jLabel10.setText("Customer Sort By :");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Name ASC", "Name DESC", "Point ASC", "Point DESC" }));
+        jComboBox1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox1ItemStateChanged(evt);
+            }
+        });
 
         jLabel5.setText("Total Invoices:");
 
@@ -324,6 +329,18 @@ public class CustomerRegistration extends javax.swing.JFrame {
         jTextField2.setText(fname);
         jTextField3.setText(lname);
         jTextField4.setText(email);
+
+        try {
+
+            ResultSet resultSet = MySQL2.executeSearch("SELECT COUNT(id) FROM `invoice` WHERE `customer_mobile`='" + mobile + "'");
+
+            if (resultSet.next()) {
+                jLabel6.setText(resultSet.getString(1));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -334,6 +351,7 @@ public class CustomerRegistration extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+
         String mobile = jTextField1.getText();
         String fname = jTextField2.getText();
         String lname = jTextField3.getText();
@@ -356,11 +374,13 @@ public class CustomerRegistration extends javax.swing.JFrame {
                 boolean canUpdate = false;
 
                 if (resultSet.next()) {
+
                     if (String.valueOf(resultSet.getString("mobile")).equals(mobile)) {
                         canUpdate = true;
                     } else {
                         JOptionPane.showMessageDialog(this, "Email Already Added", "Warning", JOptionPane.WARNING_MESSAGE);
                     }
+
                 } else {
                     canUpdate = true;
                 }
@@ -370,11 +390,17 @@ public class CustomerRegistration extends javax.swing.JFrame {
                     loadCustomer();
                     reset();
                 }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_jComboBox1ItemStateChanged
 
     /**
      * @param args the command line arguments
