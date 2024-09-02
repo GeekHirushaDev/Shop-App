@@ -7,6 +7,7 @@ package gui;
 import model.MySQL2;
 import java.sql.ResultSet;
 import java.util.Vector;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -204,6 +205,24 @@ public class CompanyRegistration extends javax.swing.JDialog {
     }
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+
+        String name = jTextField1.getText();
+        String hotline = jTextField2.getText();
+
+        if (name.isBlank()) {
+            JOptionPane.showMessageDialog(this, "Please Enter Company Name", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (hotline.isBlank()) {
+            JOptionPane.showMessageDialog(this, "Please Enter Company Hotline Number", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (!hotline.matches("^[0]{1}[12345689]{1}[0-9]{7}$")) {
+            JOptionPane.showMessageDialog(this, "Please Enter Valid Hotline Number", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else {
+            try {
+                ResultSet resultSet = MySQL2.executeSearch("INSERT INTO `company`(`name`,`hotline`) VALUES ('" + name + "','" + hotline + "')");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
