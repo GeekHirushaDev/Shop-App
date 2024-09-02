@@ -356,10 +356,10 @@ public class CustomerRegistration extends javax.swing.JFrame {
                 boolean canUpdate = false;
 
                 if (resultSet.next()) {
-                    if (!String.valueOf(resultSet.getString("mobile")).equals(mobile)) {
-                        JOptionPane.showMessageDialog(this, "Email Already Added", "Warning", JOptionPane.WARNING_MESSAGE);
-                    } else {
+                    if (String.valueOf(resultSet.getString("mobile")).equals(mobile)) {
                         canUpdate = true;
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Email Already Added", "Warning", JOptionPane.WARNING_MESSAGE);
                     }
                 } else {
                     canUpdate = true;
