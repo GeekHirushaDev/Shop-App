@@ -20,9 +20,9 @@ public class Signin extends javax.swing.JFrame {
      * Creates new form Signin
      */
     public Signin() {
-        setUndecorated(true);
+//        setUndecorated(true);
         initComponents();
-        setOpacity(0.8f);
+//        setOpacity(0.8f);
     }
 
     /**
