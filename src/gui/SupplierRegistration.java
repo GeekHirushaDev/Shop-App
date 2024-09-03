@@ -290,8 +290,8 @@ public class SupplierRegistration extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jScrollPane1)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 502, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -304,7 +304,7 @@ public class SupplierRegistration extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
                             .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -337,7 +337,8 @@ public class SupplierRegistration extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -416,14 +417,15 @@ public class SupplierRegistration extends javax.swing.JFrame {
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
         int row = jTable1.getSelectedRow();
-        
+
         jTextField1.setText(String.valueOf(jTable1.getValueAt(row, 0)));
         jTextField2.setText(String.valueOf(jTable1.getValueAt(row, 1)));
         jTextField3.setText(String.valueOf(jTable1.getValueAt(row, 2)));
         jTextField4.setText(String.valueOf(jTable1.getValueAt(row, 3)));
         jLabel2.setText(String.valueOf(jTable1.getValueAt(row, 4)));
-        
+
         jTextField1.setEnabled(false);
+        jButton2.setEnabled(false);
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -433,13 +435,7 @@ public class SupplierRegistration extends javax.swing.JFrame {
         String lname = jTextField3.getText();
         String email = jTextField4.getText();
 
-        if (companyId == null) {
-            JOptionPane.showMessageDialog(this, "Please Select A Company", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (mobile.isBlank()) {
-            JOptionPane.showMessageDialog(this, "Enter Your Mobile number", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (!mobile.matches("^07[01245678]{1}[0-9]{7}$")) {
-            JOptionPane.showMessageDialog(this, "Enter valid Mobile number", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (fname.isBlank()) {
+        if (fname.isBlank()) {
             JOptionPane.showMessageDialog(this, "Enter Your First Name", "Warning", JOptionPane.WARNING_MESSAGE);
         } else if (lname.isBlank()) {
             JOptionPane.showMessageDialog(this, "Enter Your Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -448,22 +444,38 @@ public class SupplierRegistration extends javax.swing.JFrame {
         } else if (!email.matches("^(?=.{1,64}@)[A-Za-z0-9\\+_-]+(\\.[A-za-z0-9\\+_-]+)*@[^-][A-za-z0-9\\+-]+(\\.[A-za-z0-9\\+-]+)*(\\.[A-Za-z]{2,})$")) {
             JOptionPane.showMessageDialog(this, "Invalid Email", "Warning", JOptionPane.WARNING_MESSAGE);
         } else {
-
+            
             try {
-                ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `supplier` WHERE `mobile` = '" + mobile + "' OR `email` = '" + email + "'");
+
+                ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `supplier` WHERE `email` = '" + email + "' AND `mobile` != '" + mobile + "'");
 
                 if (resultSet.next()) {
-                    JOptionPane.showMessageDialog(this, "Supplier Already Registerd", "Warning", JOptionPane.WARNING_MESSAGE);
+
+                    JOptionPane.showMessageDialog(this, "Email Already Used", "Warning", JOptionPane.WARNING_MESSAGE);
+
                 } else {
-                    MySQL2.executeIUD("INSERT INTO `supplier`(`mobile`,`first_name`,`last_name`,`email`,`company_id`) VALUES ('" + mobile + "','" + fname + "','" + lname + "','" + email + "','" + companyId + "')");
+
+                    String query;
+
+                    if (jLabel2.getText().equals(String.valueOf(jTable1.getValueAt(jTable1.getSelectedRow(), 4)))) {
+                        // Company Update Not Required
+                        query = "";
+                    } else {
+                        // Company Update Required
+                        query = ",`company_id` = '" + companyId + "'";
+                    }
+
+                    MySQL2.executeIUD("UPDATE `supplier` SET `first_name` = '" + fname + "',`first_name` = '" + lname + "'" + query + " WHERE `mobile` = '" + mobile + "'");
                     reset();
                     loadSuppliers(jTextField1.getText(), "first_name", "ASC");
+
                 }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
+
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
@@ -527,7 +539,7 @@ public class SupplierRegistration extends javax.swing.JFrame {
         int sort = jComboBox1.getSelectedIndex();
 
         String mobile = jTextField1.getText();
-        
+
         if (sort == 0) {
             loadSuppliers(mobile, "first_name", "ASC");
         } else if (sort == 1) {
