@@ -426,6 +426,26 @@ public class SupplierRegistration extends javax.swing.JFrame {
 
         jTextField1.setEnabled(false);
         jButton2.setEnabled(false);
+
+        try {
+
+            double total = 0;
+
+            ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `grn` INNER JOIN `grn_item`"
+                    + "ON `grn`.`id` = `grn_item`.`grn_id` WHERE `supplier_mobile` = '" + String.valueOf(jTable1.getValueAt(row, 0)) + "'");
+
+            while (resultSet.next()) {
+                double qty = resultSet.getDouble("grn_item.qty");
+                double buyingPrice = resultSet.getDouble("grn_item.price");
+
+                total = qty * buyingPrice;
+
+                System.out.println(total);
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -444,7 +464,7 @@ public class SupplierRegistration extends javax.swing.JFrame {
         } else if (!email.matches("^(?=.{1,64}@)[A-Za-z0-9\\+_-]+(\\.[A-za-z0-9\\+_-]+)*@[^-][A-za-z0-9\\+-]+(\\.[A-za-z0-9\\+-]+)*(\\.[A-Za-z]{2,})$")) {
             JOptionPane.showMessageDialog(this, "Invalid Email", "Warning", JOptionPane.WARNING_MESSAGE);
         } else {
-            
+
             try {
 
                 ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `supplier` WHERE `email` = '" + email + "' AND `mobile` != '" + mobile + "'");
