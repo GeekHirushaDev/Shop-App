@@ -21,12 +21,18 @@ public class SupplierRegistration extends javax.swing.JFrame {
         initComponents();
     }
     
-    public JLabel getjLable() {
-        return jLabel2;
+//    public JLabel getjLable() {
+//        return jLabel2;
+//    }
+//    
+    public void setComanyName(String name) {
+        jLabel2.setText(name);
     }
-    
-    public JTextField getJTextField(){
-        return jTextField1;
+//    public JTextField getJTextField(){
+//        return jTextField1;
+//    }
+    public void mobileGrabFocus() {
+        jTextField1.grabFocus();
     }
 
     /**
