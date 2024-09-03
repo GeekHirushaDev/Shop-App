@@ -8,6 +8,8 @@ import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import java.sql.ResultSet;
+import model.MySQL2;
 
 /**
  *
@@ -311,7 +313,7 @@ public class SupplierRegistration extends javax.swing.JFrame {
 
         if (companyId == null) {
             JOptionPane.showMessageDialog(this, "Please Select A Company", "Warning", JOptionPane.WARNING_MESSAGE);
-        }else if (mobile.isBlank()) {
+        } else if (mobile.isBlank()) {
             JOptionPane.showMessageDialog(this, "Enter Your Mobile number", "Warning", JOptionPane.WARNING_MESSAGE);
         } else if (!mobile.matches("^07[01245678]{1}[0-9]{7}$")) {
             JOptionPane.showMessageDialog(this, "Enter valid Mobile number", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -324,7 +326,19 @@ public class SupplierRegistration extends javax.swing.JFrame {
         } else if (!email.matches("^(?=.{1,64}@)[A-Za-z0-9\\+_-]+(\\.[A-za-z0-9\\+_-]+)*@[^-][A-za-z0-9\\+-]+(\\.[A-za-z0-9\\+-]+)*(\\.[A-Za-z]{2,})$")) {
             JOptionPane.showMessageDialog(this, "Invalid Email", "Warning", JOptionPane.WARNING_MESSAGE);
         } else {
-            
+
+            try {
+                ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `supplier` WHERE `mobile` = '" + mobile + "' OR `email` = '" + email + "'");
+
+                if (resultSet.next()) {
+                    JOptionPane.showMessageDialog(this, "Supplier Already Registerd", "Warning", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    MySQL2.executeIUD("INSERT INTO `supplier`(`mobile`,`first_name`,`last_name`,`email`,`company_id`) VALUES ('" + mobile + "','" + fname + "','" + lname + "','" + email + "','" + companyId + "')");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
