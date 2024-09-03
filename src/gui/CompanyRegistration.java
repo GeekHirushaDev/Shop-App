@@ -279,6 +279,7 @@ public class CompanyRegistration extends javax.swing.JDialog {
             String name = String.valueOf(jTable1.getValueAt(row, 1));
             sr.getjLable().setText(name);
             this.dispose();
+            sr.getJTextField().grabFocus();
         }
     }//GEN-LAST:event_jTable1MouseClicked
 

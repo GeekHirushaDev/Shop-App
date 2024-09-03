@@ -6,6 +6,7 @@ package gui;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 /**
  *
@@ -22,6 +23,10 @@ public class SupplierRegistration extends javax.swing.JFrame {
     
     public JLabel getjLable() {
         return jLabel2;
+    }
+    
+    public JTextField getJTextField(){
+        return jTextField1;
     }
 
     /**
