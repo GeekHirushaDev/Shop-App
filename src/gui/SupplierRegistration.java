@@ -6,6 +6,7 @@ package gui;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 /**
@@ -15,19 +16,18 @@ import javax.swing.JTextField;
 public class SupplierRegistration extends javax.swing.JFrame {
 
     private String companyId;
+
     /**
      * @param companyId the companyId to set
      */
     public void setCompanyId(String companyId) {
         this.companyId = companyId;
     }
-    
-    
-    
+
     public SupplierRegistration() {
         initComponents();
     }
-    
+
 //    public JLabel getjLable() {
 //        return jLabel2;
 //    }
@@ -38,6 +38,7 @@ public class SupplierRegistration extends javax.swing.JFrame {
 //    public JTextField getJTextField(){
 //        return jTextField1;
 //    }
+
     public void mobileGrabFocus() {
         jTextField1.grabFocus();
     }
@@ -107,6 +108,11 @@ public class SupplierRegistration extends javax.swing.JFrame {
         jButton2.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
         jButton2.setForeground(new java.awt.Color(0, 0, 0));
         jButton2.setText("Create Account");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setBackground(new java.awt.Color(0, 0, 204));
         jButton3.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
@@ -296,7 +302,32 @@ public class SupplierRegistration extends javax.swing.JFrame {
         cr.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        String mobile = jTextField1.getText();
+        String fname = jTextField2.getText();
+        String lname = jTextField3.getText();
+        String email = jTextField4.getText();
+
+        if (companyId == null) {
+            JOptionPane.showMessageDialog(this, "Please Select A Company", "Warning", JOptionPane.WARNING_MESSAGE);
+        }else if (mobile.isBlank()) {
+            JOptionPane.showMessageDialog(this, "Enter Your Mobile number", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (!mobile.matches("^07[01245678]{1}[0-9]{7}$")) {
+            JOptionPane.showMessageDialog(this, "Enter valid Mobile number", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (fname.isBlank()) {
+            JOptionPane.showMessageDialog(this, "Enter Your First Name", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (lname.isBlank()) {
+            JOptionPane.showMessageDialog(this, "Enter Your Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (email.isBlank()) {
+            JOptionPane.showMessageDialog(this, "Please Enter Email", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (!email.matches("^(?=.{1,64}@)[A-Za-z0-9\\+_-]+(\\.[A-za-z0-9\\+_-]+)*@[^-][A-za-z0-9\\+-]+(\\.[A-za-z0-9\\+-]+)*(\\.[A-Za-z]{2,})$")) {
+            JOptionPane.showMessageDialog(this, "Invalid Email", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else {
+            
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
