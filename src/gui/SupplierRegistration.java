@@ -5,6 +5,7 @@
 package gui;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+import com.sun.source.tree.IfTree;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -30,7 +31,7 @@ public class SupplierRegistration extends javax.swing.JFrame {
 
     public SupplierRegistration() {
         initComponents();
-        loadSuppliers();
+        loadSuppliers("first_name", "ASC");
     }
 
 //    public JLabel getjLable() {
@@ -48,9 +49,10 @@ public class SupplierRegistration extends javax.swing.JFrame {
         jTextField1.grabFocus();
     }
 
-    public void loadSuppliers() {
+    public void loadSuppliers(String column, String order) { //,String number
+
         try {
-            ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `supplier` INNER JOIN `company` ON `supplier`.`company_id` = `company`.`id` ORDER BY `first_name` ASC");
+            ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `supplier` INNER JOIN `company` ON `supplier`.`company_id` = `company`.`id` ORDER BY `" + column + "` " + order + "");
 
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             model.setRowCount(0);
@@ -69,6 +71,7 @@ public class SupplierRegistration extends javax.swing.JFrame {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     /**
@@ -125,6 +128,12 @@ public class SupplierRegistration extends javax.swing.JFrame {
         jLabel2.setText("COMPANY NAME HERE");
 
         jLabel3.setText("Mobile");
+
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField1KeyReleased(evt);
+            }
+        });
 
         jLabel4.setText("First Name");
 
@@ -248,7 +257,12 @@ public class SupplierRegistration extends javax.swing.JFrame {
         jLabel10.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel10.setText("Customer Sort By :");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Name ASC", "Name DESC", "Point ASC", "Point DESC" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Name ASC", "Name DESC", "Company ASC", "Company DESC" }));
+        jComboBox1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox1ItemStateChanged(evt);
+            }
+        });
 
         jLabel6.setText("Total GRN :");
 
@@ -266,8 +280,8 @@ public class SupplierRegistration extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jScrollPane1)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -279,13 +293,12 @@ public class SupplierRegistration extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
-                            .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 75, Short.MAX_VALUE)))
-                .addContainerGap())
+                            .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -366,7 +379,7 @@ public class SupplierRegistration extends javax.swing.JFrame {
                 } else {
                     MySQL2.executeIUD("INSERT INTO `supplier`(`mobile`,`first_name`,`last_name`,`email`,`company_id`) VALUES ('" + mobile + "','" + fname + "','" + lname + "','" + email + "','" + companyId + "')");
                     reset();
-                    loadSuppliers();
+                    loadSuppliers("first_name", "ASC");
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -379,6 +392,16 @@ public class SupplierRegistration extends javax.swing.JFrame {
         // TODO add your handling code here:
         reset();
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
+        // TODO add your handling code here:
+        search();
+    }//GEN-LAST:event_jComboBox1ItemStateChanged
+
+    private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
+        // TODO add your handling code here:
+        search();
+    }//GEN-LAST:event_jTextField1KeyReleased
 
     /**
      * @param args the command line arguments
@@ -431,6 +454,23 @@ public class SupplierRegistration extends javax.swing.JFrame {
         companyId = null;
         jLabel2.setText("COMPANY NAME HERE");
         jTable1.clearSelection();
-        loadSuppliers();
+        jComboBox1.setSelectedIndex(0);
+        jLabel11.setText("");
+        jLabel9.setText("");
+        loadSuppliers("first_name", "ASC");
     }
+
+    private void search() {
+        int sort = jComboBox1.getSelectedIndex();
+        if (sort == 0) {
+            loadSuppliers("first_name", "ASC");
+        } else if (sort == 1) {
+            loadSuppliers("first_name", "DESC");
+        } else if (sort == 2) {
+            loadSuppliers("company`.`name", "ASC");
+        } else if (sort == 3) {
+            loadSuppliers("company`.`name", "DESC");
+        }
+    }
+
 }
