@@ -16,6 +16,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class CompanyRegistration extends javax.swing.JDialog {
 
+    SupplierRegistration sr;
+
     /**
      * Creates new form CompanyRegistration
      */
@@ -23,6 +25,7 @@ public class CompanyRegistration extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         loadCompanies();
+        sr = (SupplierRegistration) parent;
     }
 
     private void loadCompanies() {
@@ -224,36 +227,41 @@ public class CompanyRegistration extends javax.swing.JDialog {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        String name = jTextField1.getText();
-        String hotline = jTextField2.getText();
-
         int row = jTable1.getSelectedRow();
-        String selectedId = String.valueOf(jTable1.getValueAt(row, 0));
-        String selectedName = String.valueOf(jTable1.getValueAt(row, 1));
-        String selectedHotline = String.valueOf(jTable1.getValueAt(row, 2));
 
-        if (name.isBlank()) {
-            JOptionPane.showMessageDialog(this, "Please Enter Company Name", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (hotline.isBlank()) {
-            JOptionPane.showMessageDialog(this, "Please Enter Company Hotline Number", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (!hotline.matches("^[0]{1}[12345689]{1}[0-9]{8}$")) {
-            JOptionPane.showMessageDialog(this, "Please Enter Valid Hotline Number", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (selectedName.equals(name) && selectedHotline.equals(hotline)) {
-            JOptionPane.showMessageDialog(this, "Please Change Name or Hotline Number to Update", "Warning", JOptionPane.WARNING_MESSAGE);
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Please Select a row to Update", "Warning", JOptionPane.WARNING_MESSAGE);
         } else {
+            String name = jTextField1.getText();
+            String hotline = jTextField2.getText();
 
-            try {
-                ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `company` WHERE (`name` = '" + name + "' OR `hotline` = '" + hotline + "') AND `id` != '" + selectedId + "'");
+            String selectedId = String.valueOf(jTable1.getValueAt(row, 0));
+            String selectedName = String.valueOf(jTable1.getValueAt(row, 1));
+            String selectedHotline = String.valueOf(jTable1.getValueAt(row, 2));
 
-                if (resultSet.next()) {
-                    JOptionPane.showMessageDialog(this, "Company Name or Hotline Number Already Used", "Warning", JOptionPane.WARNING_MESSAGE);
-                } else {
-                    MySQL2.executeIUD("UPDATE `company` SET `name` = '" + name + "' , `hotline` = '" + hotline + "'  WHERE `id` = '" + selectedId + "'");
-                    loadCompanies();
-                    reset();
+            if (name.isBlank()) {
+                JOptionPane.showMessageDialog(this, "Please Enter Company Name", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (hotline.isBlank()) {
+                JOptionPane.showMessageDialog(this, "Please Enter Company Hotline Number", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (!hotline.matches("^[0]{1}[12345689]{1}[0-9]{8}$")) {
+                JOptionPane.showMessageDialog(this, "Please Enter Valid Hotline Number", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (selectedName.equals(name) && selectedHotline.equals(hotline)) {
+                JOptionPane.showMessageDialog(this, "Please Change Name or Hotline Number to Update", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else {
+
+                try {
+                    ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `company` WHERE (`name` = '" + name + "' OR `hotline` = '" + hotline + "') AND `id` != '" + selectedId + "'");
+
+                    if (resultSet.next()) {
+                        JOptionPane.showMessageDialog(this, "Company Name or Hotline Number Already Used", "Warning", JOptionPane.WARNING_MESSAGE);
+                    } else {
+                        MySQL2.executeIUD("UPDATE `company` SET `name` = '" + name + "' , `hotline` = '" + hotline + "'  WHERE `id` = '" + selectedId + "'");
+                        loadCompanies();
+                        reset();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
         }
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -266,6 +274,10 @@ public class CompanyRegistration extends javax.swing.JDialog {
         jTextField2.setText(String.valueOf(jTable1.getValueAt(row, 2)));
 
         jButton1.setEnabled(false);
+
+        if (evt.getClickCount() == 2) {
+
+        }
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
