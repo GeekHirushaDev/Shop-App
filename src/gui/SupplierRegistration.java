@@ -14,9 +14,16 @@ import javax.swing.JTextField;
  */
 public class SupplierRegistration extends javax.swing.JFrame {
 
+    private String companyId;
     /**
-     * Creates new form SupplierRegistration
+     * @param companyId the companyId to set
      */
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
+    }
+    
+    
+    
     public SupplierRegistration() {
         initComponents();
     }
@@ -331,4 +338,5 @@ public class SupplierRegistration extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     // End of variables declaration//GEN-END:variables
+
 }
