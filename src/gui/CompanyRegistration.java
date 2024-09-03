@@ -74,7 +74,7 @@ public class CompanyRegistration extends javax.swing.JDialog {
 
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Supplier Name");
+        jLabel2.setText("Hotline Number");
 
         jButton1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jButton1.setText("ADD");
@@ -131,7 +131,7 @@ public class CompanyRegistration extends javax.swing.JDialog {
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(11, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -165,7 +165,7 @@ public class CompanyRegistration extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
+
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
 
@@ -176,13 +176,20 @@ public class CompanyRegistration extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Please Enter Company Name", "Warning", JOptionPane.WARNING_MESSAGE);
         } else if (hotline.isBlank()) {
             JOptionPane.showMessageDialog(this, "Please Enter Company Hotline Number", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (!hotline.matches("^[0]{1}[12345689]{1}[0-9]{7}$")) {
+        } else if (!hotline.matches("^[0]{1}[12345689]{1}[0-9]{8}$")) {
             JOptionPane.showMessageDialog(this, "Please Enter Valid Hotline Number", "Warning", JOptionPane.WARNING_MESSAGE);
         } else {
+
             try {
-                MySQL2.executeSearch("INSERT INTO `company`(`name`,`hotline`) VALUES ('" + name + "','" + hotline + "')");
-                loadCompanies();
-                reset();
+                ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `company` WHERE `name` = '" + name + "' OR `hotline` = '" + hotline + "' ");
+                
+                if (resultSet.next()) {
+                    JOptionPane.showMessageDialog(this, "Company Name or Hotline Number Already Used", "Warning", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    MySQL2.executeIUD("INSERT INTO `company`(`name`,`hotline`) VALUES ('" + name + "','" + hotline + "')");
+                    loadCompanies();
+                    reset();
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -210,7 +217,7 @@ public class CompanyRegistration extends javax.swing.JDialog {
     private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
 
-    private void reset(){
+    private void reset() {
         jTextField1.setText("");
         jTextField2.setText("");
         jTextField1.grabFocus();
