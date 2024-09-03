@@ -31,7 +31,7 @@ public class SupplierRegistration extends javax.swing.JFrame {
 
     public SupplierRegistration() {
         initComponents();
-        loadSuppliers("first_name", "ASC");
+        loadSuppliers(jTextField1.getText(), "first_name", "ASC");
     }
 
 //    public JLabel getjLable() {
@@ -49,10 +49,10 @@ public class SupplierRegistration extends javax.swing.JFrame {
         jTextField1.grabFocus();
     }
 
-    public void loadSuppliers(String column, String order) { //,String number
+    public void loadSuppliers(String mobile, String column, String order) { //,String number
 
         try {
-            ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `supplier` INNER JOIN `company` ON `supplier`.`company_id` = `company`.`id` ORDER BY `" + column + "` " + order + "");
+            ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `supplier` INNER JOIN `company` ON `supplier`.`company_id` = `company`.`id` WHERE `mobile` LIKE '" + mobile + "%' ORDER BY `" + column + "` " + order + "");
 
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             model.setRowCount(0);
@@ -155,6 +155,11 @@ public class SupplierRegistration extends javax.swing.JFrame {
         jButton3.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
         jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.setText("Update Account");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setBackground(new java.awt.Color(204, 0, 0));
         jButton4.setFont(new java.awt.Font("Dialog", 1, 15)); // NOI18N
@@ -252,6 +257,11 @@ public class SupplierRegistration extends javax.swing.JFrame {
             }
         });
         jTable1.getTableHeader().setReorderingAllowed(false);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jLabel10.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
@@ -379,7 +389,7 @@ public class SupplierRegistration extends javax.swing.JFrame {
                 } else {
                     MySQL2.executeIUD("INSERT INTO `supplier`(`mobile`,`first_name`,`last_name`,`email`,`company_id`) VALUES ('" + mobile + "','" + fname + "','" + lname + "','" + email + "','" + companyId + "')");
                     reset();
-                    loadSuppliers("first_name", "ASC");
+                    loadSuppliers(jTextField1.getText(), "first_name", "ASC");
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -402,6 +412,59 @@ public class SupplierRegistration extends javax.swing.JFrame {
         // TODO add your handling code here:
         search();
     }//GEN-LAST:event_jTextField1KeyReleased
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+        int row = jTable1.getSelectedRow();
+        
+        jTextField1.setText(String.valueOf(jTable1.getValueAt(row, 0)));
+        jTextField2.setText(String.valueOf(jTable1.getValueAt(row, 1)));
+        jTextField3.setText(String.valueOf(jTable1.getValueAt(row, 2)));
+        jTextField4.setText(String.valueOf(jTable1.getValueAt(row, 3)));
+        jLabel2.setText(String.valueOf(jTable1.getValueAt(row, 4)));
+        
+        jTextField1.setEnabled(false);
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        String mobile = jTextField1.getText();
+        String fname = jTextField2.getText();
+        String lname = jTextField3.getText();
+        String email = jTextField4.getText();
+
+        if (companyId == null) {
+            JOptionPane.showMessageDialog(this, "Please Select A Company", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (mobile.isBlank()) {
+            JOptionPane.showMessageDialog(this, "Enter Your Mobile number", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (!mobile.matches("^07[01245678]{1}[0-9]{7}$")) {
+            JOptionPane.showMessageDialog(this, "Enter valid Mobile number", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (fname.isBlank()) {
+            JOptionPane.showMessageDialog(this, "Enter Your First Name", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (lname.isBlank()) {
+            JOptionPane.showMessageDialog(this, "Enter Your Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (email.isBlank()) {
+            JOptionPane.showMessageDialog(this, "Please Enter Email", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (!email.matches("^(?=.{1,64}@)[A-Za-z0-9\\+_-]+(\\.[A-za-z0-9\\+_-]+)*@[^-][A-za-z0-9\\+-]+(\\.[A-za-z0-9\\+-]+)*(\\.[A-Za-z]{2,})$")) {
+            JOptionPane.showMessageDialog(this, "Invalid Email", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else {
+
+            try {
+                ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `supplier` WHERE `mobile` = '" + mobile + "' OR `email` = '" + email + "'");
+
+                if (resultSet.next()) {
+                    JOptionPane.showMessageDialog(this, "Supplier Already Registerd", "Warning", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    MySQL2.executeIUD("INSERT INTO `supplier`(`mobile`,`first_name`,`last_name`,`email`,`company_id`) VALUES ('" + mobile + "','" + fname + "','" + lname + "','" + email + "','" + companyId + "')");
+                    reset();
+                    loadSuppliers(jTextField1.getText(), "first_name", "ASC");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -457,19 +520,22 @@ public class SupplierRegistration extends javax.swing.JFrame {
         jComboBox1.setSelectedIndex(0);
         jLabel11.setText("");
         jLabel9.setText("");
-        loadSuppliers("first_name", "ASC");
+        loadSuppliers(jTextField1.getText(), "first_name", "ASC");
     }
 
     private void search() {
         int sort = jComboBox1.getSelectedIndex();
+
+        String mobile = jTextField1.getText();
+        
         if (sort == 0) {
-            loadSuppliers("first_name", "ASC");
+            loadSuppliers(mobile, "first_name", "ASC");
         } else if (sort == 1) {
-            loadSuppliers("first_name", "DESC");
+            loadSuppliers(mobile, "first_name", "DESC");
         } else if (sort == 2) {
-            loadSuppliers("company`.`name", "ASC");
+            loadSuppliers(mobile, "company`.`name", "ASC");
         } else if (sort == 3) {
-            loadSuppliers("company`.`name", "DESC");
+            loadSuppliers(mobile, "company`.`name", "DESC");
         }
     }
 
