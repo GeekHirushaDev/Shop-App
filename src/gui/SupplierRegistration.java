@@ -5,6 +5,7 @@
 package gui;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+import javax.swing.JLabel;
 
 /**
  *
@@ -17,6 +18,10 @@ public class SupplierRegistration extends javax.swing.JFrame {
      */
     public SupplierRegistration() {
         initComponents();
+    }
+    
+    public JLabel getjLable() {
+        return jLabel2;
     }
 
     /**
@@ -273,6 +278,7 @@ public class SupplierRegistration extends javax.swing.JFrame {
         cr.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    
     /**
      * @param args the command line arguments
      */
