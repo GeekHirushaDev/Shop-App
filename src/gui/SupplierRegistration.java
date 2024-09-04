@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.sql.ResultSet;
+import java.util.HashMap;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
@@ -433,6 +434,8 @@ public class SupplierRegistration extends javax.swing.JFrame {
 
             double total = 0;
 
+            HashMap<Integer, Double> grns = new HashMap<>();
+
             while (resultSet.next()) {
                 double qty = resultSet.getDouble("grn_item.qty");
                 double buyingPrice = resultSet.getDouble("grn_item.price");
@@ -440,10 +443,24 @@ public class SupplierRegistration extends javax.swing.JFrame {
 
 //                total = total + itemTotal;
                 total += itemTotal;
+
+                grns.put(resultSet.getInt("grn.id"), resultSet.getDouble("grn.paid_amount"));
+
             }
-            
+
+            double totalPaid = 0;
+
+            for (Double paid : grns.values()) {
+
+                totalPaid = totalPaid + paid;
+                // totalPaid+=paid;
+            }
+
+            jLabel9.setText(String.valueOf(grns.size()));
+            jLabel11.setText(String.valueOf(total - totalPaid));
+
             System.out.println(total);
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -553,7 +570,8 @@ public class SupplierRegistration extends javax.swing.JFrame {
         jComboBox1.setSelectedIndex(0);
         jLabel11.setText("");
         jLabel9.setText("");
-        jButton1.setEnabled(true);
+        jTextField1.setEnabled(true);
+        jButton2.setEnabled(true);
         loadSuppliers(jTextField1.getText(), "first_name", "ASC");
     }
 
