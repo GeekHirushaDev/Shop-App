@@ -385,6 +385,11 @@ public class Stock extends javax.swing.JFrame {
         jButton6.setText("Find");
 
         jButton7.setText("Clear All");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         jDateChooser1.setBackground(new java.awt.Color(255, 255, 255));
         jDateChooser1.setForeground(new java.awt.Color(255, 255, 255));
@@ -696,6 +701,12 @@ public class Stock extends javax.swing.JFrame {
         // TODO add your handling code here:
         loadStock("");
     }//GEN-LAST:event_jComboBox2ItemStateChanged
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+        resetProductUI();
+        loadStock("");
+    }//GEN-LAST:event_jButton7ActionPerformed
 
     /**
      * @param args the command line arguments
