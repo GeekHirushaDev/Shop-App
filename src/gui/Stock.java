@@ -77,9 +77,45 @@ public class Stock extends javax.swing.JFrame {
 
         try {
 
-            ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `stock`"
+            String query = "SELECT * FROM `stock`"
                     + " INNER JOIN `product` ON `stock`.`product_id` = `product`.`id`"
-                    + "INNER JOIN `brand` ON `brand`.`id` = `product`.`brand_id` WHERE `product_id` = '" + pid + "'");
+                    + "INNER JOIN `brand` ON `brand`.`id` = `product`.`brand_id` ";
+
+            if (!pid.isEmpty()) {
+                query += "WHERE `product_id` = '" + pid + "'";
+            }
+            
+            String sort = String.valueOf(jComboBox2.getSelectedItem());
+            
+            query += "ORDER BY ";
+            
+            if (sort.equals("Stock ID ASC")) {
+                query += "`stock`.`id` ASC";
+            } else if (sort.equals("Stock ID DESC")) {
+                query += "`stock`.`id` DESC";
+            }else if (sort.equals("Product ID ASC")) {
+                query += "`product`.`id` ASC";
+            }else if (sort.equals("Product ID DESC")) {
+                query += "`product`.`id` DESC";
+            }else if (sort.equals("Brand ASC")) {
+                query += "`brand`.`name` ASC";
+            }else if (sort.equals("Brand DESC")) {
+                query += "`brand`.`name` DESC";
+            }else if (sort.equals("Name ASC")) {
+                query += "`product`.`name` ASC";
+            }else if (sort.equals("Name DESC")) {
+                query += "`product`.`name` DESC";
+            }else if (sort.equals("Selling Price ASC")) {
+                query += "`stock`.`price` ASC";
+            }else if (sort.equals("Selling Price DESC")) {
+                query += "`stock`.`price` DESC";
+            }else if (sort.equals("Quantity ASC")) {
+                query += "`stock`.`qty` ASC";
+            }else if (sort.equals("Quantity DESC")) {
+                query += "`stock`.`qty` DESC";
+            }
+            
+            ResultSet resultSet = MySQL2.executeSearch(query);
 
             DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
             model.setRowCount(0);
@@ -331,6 +367,11 @@ public class Stock extends javax.swing.JFrame {
         jLabel5.setText("Sort By :");
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Stock ID ASC", "Stock ID DESC", "Product ID ASC", "Product ID DESC", "Brand ASC", "Brand DESC", "Name ASC", "Name DESC", "Selling Price ASC", "Selling Price DESC", "Quantity ASC", "Quantity DESC" }));
+        jComboBox2.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox2ItemStateChanged(evt);
+            }
+        });
 
         jLabel6.setText("Selling Price");
 
@@ -599,7 +640,7 @@ public class Stock extends javax.swing.JFrame {
         jTextField1.setText(String.valueOf(jTable1.getValueAt(row, 0)));
         jTextField3.setText(String.valueOf(jTable1.getValueAt(row, 3)));
         jTextField1.setEnabled(false);
-        
+
         loadStock(String.valueOf(jTable1.getValueAt(row, 0)));
     }//GEN-LAST:event_jTable1MouseClicked
 
@@ -611,7 +652,7 @@ public class Stock extends javax.swing.JFrame {
         jTextField1.setText(String.valueOf(jTable1.getValueAt(row, 0)));
         jTextField3.setText(String.valueOf(jTable1.getValueAt(row, 3)));
         jTextField1.setEnabled(false);
-        
+
         loadStock(String.valueOf(jTable1.getValueAt(row, 0)));
     }//GEN-LAST:event_jTable1KeyReleased
 
@@ -650,6 +691,11 @@ public class Stock extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jComboBox2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox2ItemStateChanged
+        // TODO add your handling code here:
+        loadStock("");
+    }//GEN-LAST:event_jComboBox2ItemStateChanged
 
     /**
      * @param args the command line arguments
