@@ -117,9 +117,9 @@ public class Stock extends javax.swing.JFrame {
                 jComboBox1ItemStateChanged(evt);
             }
         });
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+        jComboBox1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jComboBox1KeyPressed(evt);
             }
         });
 
@@ -471,8 +471,13 @@ public class Stock extends javax.swing.JFrame {
 
             try {
 
-                MySQL2.executeIUD("INSERT INTO `product`(`id`,`name`,`brand_id`) VALUES ('" + id + "','" + name + "','" + brandMap.get(brand) + "')");
+                ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `product` WHERE `id` = '" + id + "' OR (`name` = '" + name + "' AND `brand_id` = '" + brandMap.get(brand) + "')");
 
+                if (resultSet.next()) {
+                    JOptionPane.showMessageDialog(this, "Product Already Added", "Warning", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    MySQL2.executeIUD("INSERT INTO `product`(`id`,`name`,`brand_id`) VALUES ('" + id + "','" + name + "','" + brandMap.get(brand) + "')");
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -484,15 +489,17 @@ public class Stock extends javax.swing.JFrame {
         jComboBox1.grabFocus();
     }//GEN-LAST:event_jTextField1ActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
-        jTextField3.grabFocus();
-    }//GEN-LAST:event_jComboBox1ActionPerformed
-
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
         // TODO add your handling code here:
         jButton2.grabFocus();
     }//GEN-LAST:event_jTextField3ActionPerformed
+
+    private void jComboBox1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jComboBox1KeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == 10) {
+            jTextField3.grabFocus();
+        }
+    }//GEN-LAST:event_jComboBox1KeyPressed
 
     /**
      * @param args the command line arguments
