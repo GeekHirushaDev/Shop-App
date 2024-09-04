@@ -169,6 +169,11 @@ public class Stock extends javax.swing.JFrame {
         });
 
         jButton3.setText("Update Product");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Clear All");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -261,6 +266,16 @@ public class Stock extends javax.swing.JFrame {
         });
         jTable1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jTable1.getTableHeader().setReorderingAllowed(false);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
+        jTable1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTable1KeyReleased(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -543,6 +558,62 @@ public class Stock extends javax.swing.JFrame {
         reset();
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+        int row = jTable1.getSelectedRow();
+
+        jComboBox1.setSelectedItem(String.valueOf(jTable1.getValueAt(row, 2)));
+        jTextField1.setText(String.valueOf(jTable1.getValueAt(row, 0)));
+        jTextField3.setText(String.valueOf(jTable1.getValueAt(row, 3)));
+        jTextField1.setEnabled(false);
+    }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jTable1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTable1KeyReleased
+        // TODO add your handling code here:
+        int row = jTable1.getSelectedRow();
+
+        jComboBox1.setSelectedItem(String.valueOf(jTable1.getValueAt(row, 2)));
+        jTextField1.setText(String.valueOf(jTable1.getValueAt(row, 0)));
+        jTextField3.setText(String.valueOf(jTable1.getValueAt(row, 3)));
+        jTextField1.setEnabled(false);
+    }//GEN-LAST:event_jTable1KeyReleased
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+
+        String id = jTextField1.getText();
+        String brand = String.valueOf(jComboBox1.getSelectedItem());
+        String name = jTextField3.getText();
+
+        if (brand.equals("Select")) {
+            JOptionPane.showMessageDialog(this, "Please Enter Product ID", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (name.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please Enter Product ID", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else {
+
+            try {
+
+                ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `product` WHERE `name` = '" + name + "' AND `brand_id` = '" + brandMap.get(brand) + "'");
+
+                if (resultSet.next()) {
+
+                    JOptionPane.showMessageDialog(this, "Change Name or Brand to Update", "Warning", JOptionPane.WARNING_MESSAGE);
+
+                } else {
+
+                    MySQL2.executeIUD("UPDATE `product` SET `name` = '" + name + "',"
+                            + "`brand_id` = '" + brandMap.get(brand) + "' WHERE `id` = '" + id + "'");
+                    JOptionPane.showMessageDialog(this, "Product Updated", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    reset();
+                    loadProducts();
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -596,6 +667,7 @@ public class Stock extends javax.swing.JFrame {
 
     private void reset() {
         jTextField1.setText("");
+        jTextField1.grabFocus();
         jTextField2.setText("");
         jTextField3.setText("");
         jTable1.clearSelection();
