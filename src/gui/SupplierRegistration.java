@@ -429,20 +429,21 @@ public class SupplierRegistration extends javax.swing.JFrame {
 
         try {
 
-            double total = 0;
+            ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `grn` INNER JOIN `grn_item` ON `grn`.`id` = `grn_item`.`grn_id` WHERE `supplier_mobile` = '" + String.valueOf(jTable1.getValueAt(row, 0)) + "' ");
 
-            ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `grn` INNER JOIN `grn_item`"
-                    + "ON `grn`.`id` = `grn_item`.`grn_id` WHERE `supplier_mobile` = '" + String.valueOf(jTable1.getValueAt(row, 0)) + "'");
+            double total = 0;
 
             while (resultSet.next()) {
                 double qty = resultSet.getDouble("grn_item.qty");
                 double buyingPrice = resultSet.getDouble("grn_item.price");
+                double itemTotal = qty * buyingPrice;
 
-                total = qty * buyingPrice;
-
-                System.out.println(total);
-
+//                total = total + itemTotal;
+                total += itemTotal;
             }
+            
+            System.out.println(total);
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -552,6 +553,7 @@ public class SupplierRegistration extends javax.swing.JFrame {
         jComboBox1.setSelectedIndex(0);
         jLabel11.setText("");
         jLabel9.setText("");
+        jButton1.setEnabled(true);
         loadSuppliers(jTextField1.getText(), "first_name", "ASC");
     }
 
