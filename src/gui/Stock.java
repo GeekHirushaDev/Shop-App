@@ -25,6 +25,7 @@ public class Stock extends javax.swing.JFrame {
         initComponents();
         loadBrand();
         loadProducts();
+        loadStock("");
         jTextField1.grabFocus();
     }
 
@@ -49,6 +50,7 @@ public class Stock extends javax.swing.JFrame {
     }
 
     private void loadProducts() {
+
         try {
             ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `product`"
                     + " INNER JOIN `brand` ON `product`.`brand_id` = `brand`.`id`");
@@ -69,6 +71,37 @@ public class Stock extends javax.swing.JFrame {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void loadStock(String pid) {
+
+        try {
+
+            ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `stock`"
+                    + " INNER JOIN `product` ON `stock`.`product_id` = `product`.`id`"
+                    + "INNER JOIN `brand` ON `brand`.`id` = `product`.`brand_id` WHERE `product_id` = '" + pid + "'");
+
+            DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+            model.setRowCount(0);
+
+            while (resultSet.next()) {
+                Vector<String> vector = new Vector<>();
+                vector.add(resultSet.getString("stock.id"));
+                vector.add(resultSet.getString("product.id"));
+                vector.add(resultSet.getString("brand.name"));
+                vector.add(resultSet.getString("product.name"));
+                vector.add(resultSet.getString("stock.price"));
+                vector.add(resultSet.getString("qty"));
+                vector.add(resultSet.getString("mfd"));
+                vector.add(resultSet.getString("exp"));
+
+                model.addRow(vector);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     /**
@@ -466,7 +499,7 @@ public class Stock extends javax.swing.JFrame {
 
                         MySQL2.executeIUD("INSERT INTO `brand`(`name`) VALUES ('" + brand + "')");
                         JOptionPane.showMessageDialog(this, "New Brand Added", "Success", JOptionPane.PLAIN_MESSAGE);
-                        reset();
+                        resetProductUI();
 
                     } else {
 
@@ -527,7 +560,7 @@ public class Stock extends javax.swing.JFrame {
 
                     MySQL2.executeIUD("INSERT INTO `product`(`id`,`name`,`brand_id`) VALUES ('" + id + "','" + name + "','" + brandMap.get(brand) + "')");
                     JOptionPane.showMessageDialog(this, "New Product Added", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    reset();
+                    resetProductUI();
                 }
 
             } catch (Exception e) {
@@ -555,7 +588,7 @@ public class Stock extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        reset();
+        resetProductUI();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
@@ -566,6 +599,8 @@ public class Stock extends javax.swing.JFrame {
         jTextField1.setText(String.valueOf(jTable1.getValueAt(row, 0)));
         jTextField3.setText(String.valueOf(jTable1.getValueAt(row, 3)));
         jTextField1.setEnabled(false);
+        
+        loadStock(String.valueOf(jTable1.getValueAt(row, 0)));
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jTable1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTable1KeyReleased
@@ -576,6 +611,8 @@ public class Stock extends javax.swing.JFrame {
         jTextField1.setText(String.valueOf(jTable1.getValueAt(row, 0)));
         jTextField3.setText(String.valueOf(jTable1.getValueAt(row, 3)));
         jTextField1.setEnabled(false);
+        
+        loadStock(String.valueOf(jTable1.getValueAt(row, 0)));
     }//GEN-LAST:event_jTable1KeyReleased
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -604,7 +641,7 @@ public class Stock extends javax.swing.JFrame {
                     MySQL2.executeIUD("UPDATE `product` SET `name` = '" + name + "',"
                             + "`brand_id` = '" + brandMap.get(brand) + "' WHERE `id` = '" + id + "'");
                     JOptionPane.showMessageDialog(this, "Product Updated", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    reset();
+                    resetProductUI();
                     loadProducts();
                 }
 
@@ -665,7 +702,7 @@ public class Stock extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
 
-    private void reset() {
+    private void resetProductUI() {
         jTextField1.setText("");
         jTextField1.grabFocus();
         jTextField2.setText("");
