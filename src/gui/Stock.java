@@ -9,6 +9,7 @@ import model.MySQL2;
 import java.sql.ResultSet;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -23,21 +24,21 @@ public class Stock extends javax.swing.JFrame {
         initComponents();
         loadBrand();
     }
-    
-    private void loadBrand(){
+
+    private void loadBrand() {
         try {
-            
+
             Vector<String> vector = new Vector<>();
             vector.add("Select");
-            
+
             ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `brand`");
-            
+
             while (resultSet.next()) {
                 vector.add(resultSet.getString("name"));
             }
-            
+
             jComboBox1.setModel(new DefaultComboBoxModel<>(vector));
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -393,6 +394,27 @@ public class Stock extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+
+        String brand = jTextField2.getText();
+
+        if (brand.isBlank()) {
+            JOptionPane.showMessageDialog(this, "Please Type a Brand Name", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else {
+            try {
+                ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `brand` WHERE `name` = '" + brand + "'");
+
+                if (resultSet.next()) {
+                    JOptionPane.showMessageDialog(this, "Brand Name Already Added", "Warning", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    MySQL2.executeIUD("INSERT INTO `brand`(`name`) VALUES ('" + brand + "')");
+                    loadBrand();
+                    jTextField2.setText("");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
