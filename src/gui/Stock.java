@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -20,12 +21,10 @@ public class Stock extends javax.swing.JFrame {
 
     HashMap<String, String> brandMap = new HashMap<>();
 
-    /**
-     * Creates new form Stock
-     */
     public Stock() {
         initComponents();
         loadBrand();
+        loadProducts();
         jTextField1.grabFocus();
     }
 
@@ -43,6 +42,29 @@ public class Stock extends javax.swing.JFrame {
             }
 
             jComboBox1.setModel(new DefaultComboBoxModel<>(vector));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadProducts() {
+        try {
+            ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `product`"
+                    + " INNER JOIN `brand` ON `product`.`brand_id` = `brand`.`id`");
+
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
+
+            while (resultSet.next()) {
+                Vector<String> vector = new Vector<>();
+                vector.add(resultSet.getString("product.id"));
+                vector.add(resultSet.getString("brand.id"));
+                vector.add(resultSet.getString("brand.name"));
+                vector.add(resultSet.getString("product.name"));
+
+                model.addRow(vector);
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -149,6 +171,11 @@ public class Stock extends javax.swing.JFrame {
         jButton3.setText("Update Product");
 
         jButton4.setText("Clear All");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -221,17 +248,18 @@ public class Stock extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Prodct ID", "Brand", "Product Name"
+                "Prodct ID", "Brand ID", "Brand Name", "Product Name"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        jTable1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jTable1.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jTable1);
 
@@ -423,6 +451,7 @@ public class Stock extends javax.swing.JFrame {
 
                         MySQL2.executeIUD("INSERT INTO `brand`(`name`) VALUES ('" + brand + "')");
                         JOptionPane.showMessageDialog(this, "New Brand Added", "Success", JOptionPane.PLAIN_MESSAGE);
+                        reset();
 
                     } else {
 
@@ -448,6 +477,7 @@ public class Stock extends javax.swing.JFrame {
 
     private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
         // TODO add your handling code here:
+
         if (jComboBox1.getSelectedItem().equals("Select")) {
             jButton1.setText("+");
         } else {
@@ -457,6 +487,7 @@ public class Stock extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+
         String id = jTextField1.getText();
         String brand = String.valueOf(jComboBox1.getSelectedItem());
         String name = jTextField3.getText();
@@ -474,10 +505,16 @@ public class Stock extends javax.swing.JFrame {
                 ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `product` WHERE `id` = '" + id + "' OR (`name` = '" + name + "' AND `brand_id` = '" + brandMap.get(brand) + "')");
 
                 if (resultSet.next()) {
+
                     JOptionPane.showMessageDialog(this, "Product Already Added", "Warning", JOptionPane.WARNING_MESSAGE);
+
                 } else {
+
                     MySQL2.executeIUD("INSERT INTO `product`(`id`,`name`,`brand_id`) VALUES ('" + id + "','" + name + "','" + brandMap.get(brand) + "')");
+                    JOptionPane.showMessageDialog(this, "New Product Added", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    reset();
                 }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -500,6 +537,11 @@ public class Stock extends javax.swing.JFrame {
             jTextField3.grabFocus();
         }
     }//GEN-LAST:event_jComboBox1KeyPressed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        reset();
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -551,4 +593,14 @@ public class Stock extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
+
+    private void reset() {
+        jTextField1.setText("");
+        jTextField2.setText("");
+        jTextField3.setText("");
+        jTable1.clearSelection();
+        jTable2.clearSelection();
+        jComboBox1.setSelectedIndex(0);
+        jComboBox2.setSelectedIndex(0);
+    }
 }
