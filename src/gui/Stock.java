@@ -87,6 +87,12 @@ public class Stock extends javax.swing.JFrame {
                 String pid = String.valueOf(jTable1.getValueAt(row, 0));
                 query += "WHERE `product_id` = '" + pid + "'";
             }
+            
+            if (query.contains("WHERE")) {
+                query += "AND ";
+            } else {
+                query += "WHERE ";
+            }
 
             double min_price = 0;
             double max_price = 0;
@@ -99,17 +105,22 @@ public class Stock extends javax.swing.JFrame {
                 max_price = Double.parseDouble(jFormattedTextField2.getText());
             }
 
+            
             if (min_price > 0 && max_price == 0) {
                 query += "`stock`.`price` > '" + min_price + "'";
             } else if (min_price == 0 && max_price > 0) {
                 query += "`stock`.`price` < '" + max_price + "'";
             } else if (min_price > 0 && max_price > 0) {
-                query += "`stock`.`price` < '" + min_price + "' AND `stock`.`price` < '" + max_price + "'";
+                query += "`stock`.`price` > '" + min_price + "' AND `stock`.`price` < '" + max_price + "'";
             }
 
             String sort = String.valueOf(jComboBox2.getSelectedItem());
 
             query += "ORDER BY ";
+            
+            query = query.replace("WHERE ORDER BY ", "ORDER BY ");
+            
+            query = query.replace("AND ORDER BY ", "ORDER BY ");
 
             if (sort.equals("Stock ID ASC")) {
                 query += "`stock`.`id` ASC";
@@ -400,11 +411,31 @@ public class Stock extends javax.swing.JFrame {
 
         jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
         jFormattedTextField1.setText("0");
+        jFormattedTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jFormattedTextField1ActionPerformed(evt);
+            }
+        });
+        jFormattedTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jFormattedTextField1KeyReleased(evt);
+            }
+        });
 
         jLabel7.setText("TO");
 
         jFormattedTextField2.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
         jFormattedTextField2.setText("0");
+        jFormattedTextField2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jFormattedTextField2ActionPerformed(evt);
+            }
+        });
+        jFormattedTextField2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jFormattedTextField2KeyReleased(evt);
+            }
+        });
 
         jButton5.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jButton5.setText("Find");
@@ -744,8 +775,28 @@ public class Stock extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
-
+        loadStock();
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jFormattedTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFormattedTextField1KeyReleased
+        // TODO add your handling code here:
+        loadStock();
+    }//GEN-LAST:event_jFormattedTextField1KeyReleased
+
+    private void jFormattedTextField2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFormattedTextField2KeyReleased
+        // TODO add your handling code here:
+        loadStock();
+    }//GEN-LAST:event_jFormattedTextField2KeyReleased
+
+    private void jFormattedTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextField1ActionPerformed
+        // TODO add your handling code here:
+        jFormattedTextField2.grabFocus();
+    }//GEN-LAST:event_jFormattedTextField1ActionPerformed
+
+    private void jFormattedTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextField2ActionPerformed
+        // TODO add your handling code here:
+        jButton5.grabFocus();
+    }//GEN-LAST:event_jFormattedTextField2ActionPerformed
 
     /**
      * @param args the command line arguments
