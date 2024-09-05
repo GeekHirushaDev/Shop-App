@@ -5,6 +5,7 @@
 package gui;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+import java.util.Date;
 import java.util.HashMap;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -17,6 +18,7 @@ import model.MySQL2;
 public class GRN extends javax.swing.JFrame {
 
     HashMap<String, GRNItem> grnItemMap = new HashMap<>();
+
     /**
      * Creates new form GRN
      */
@@ -26,39 +28,39 @@ public class GRN extends javax.swing.JFrame {
         jLabel4.setText(Signin.getEmployeeEmail());
     }
 
-    private void generateGRNId(){
+    private void generateGRNId() {
         long id = System.currentTimeMillis();
         jTextField1.setText(String.valueOf(id));
     }
-    
+
     // Supplier MObile
-    public JTextField getjTextField2(){
+    public JTextField getjTextField2() {
         return jTextField2;
     }
-    
+
     // Supplier Name
-    public JLabel getjLabel21(){
+    public JLabel getjLabel21() {
         return jLabel21;
     }
-    
+
     // product ID
-    public JTextField getProductID(){
+    public JTextField getProductID() {
         return jTextField3;
     }
-    
+
     //Product Brand
-    public JLabel getBrandName(){
+    public JLabel getBrandName() {
         return jLabel9;
     }
-    
+
     // Product Name
-    public JLabel getProductName(){
+    public JLabel getProductName() {
         return jLabel12;
     }
-    
-    public void loadGRN(){
+
+    public void loadGRN() {
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -474,11 +476,28 @@ public class GRN extends javax.swing.JFrame {
         Stock stock = new Stock();
         stock.setGRN(this);
         stock.setVisible(true);
-        
+
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
+        String qty = jFormattedTextField1.getText();
+        String buying_price = jFormattedTextField2.getText();
+        String selling_price = jFormattedTextField3.getText();
+        Date mfd = jDateChooser1.getDate();
+        Date exp = jDateChooser2.getDate();
+
+        GRNItem grnItem = new GRNItem();
+        grnItem.setProductID(jTextField3.getText());
+        grnItem.setBrandName(jLabel9.getText());
+        grnItem.setProductName(jLabel12.getText());
+        grnItem.setQty(Double.parseDouble(qty));
+        grnItem.setQty(Double.parseDouble(buying_price));
+        grnItem.setQty(Double.parseDouble(selling_price));
+        grnItem.setMfd(mfd);
+        grnItem.setExp(exp);
+
+        
         
     }//GEN-LAST:event_jButton4ActionPerformed
 
