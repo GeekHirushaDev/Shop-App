@@ -7,6 +7,7 @@ package gui;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import model.MySQL2;
 import java.sql.ResultSet;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
@@ -114,6 +115,21 @@ public class Stock extends javax.swing.JFrame {
                 query += "`stock`.`price` > '" + min_price + "' AND `stock`.`price` < '" + max_price + "'";
             }
 
+            // exp
+            
+            Date Start = null;
+            Date end = null;
+            
+            if (jDateChooser1.getDate() != null) {
+                Start = jDateChooser1.getDate();
+            }
+            
+            if (jDateChooser2.getDate() != null) {
+                end = jDateChooser1.getDate();
+            }
+            
+            
+            
             String sort = String.valueOf(jComboBox2.getSelectedItem());
 
             query += "ORDER BY ";
@@ -448,6 +464,11 @@ public class Stock extends javax.swing.JFrame {
         jLabel8.setText("EXP :");
 
         jButton6.setText("Find");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         jButton7.setText("Clear All");
         jButton7.addActionListener(new java.awt.event.ActionListener() {
@@ -458,11 +479,13 @@ public class Stock extends javax.swing.JFrame {
 
         jDateChooser1.setBackground(new java.awt.Color(255, 255, 255));
         jDateChooser1.setForeground(new java.awt.Color(255, 255, 255));
+        jDateChooser1.setDateFormatString("YYYY-MM-dd");
 
         jLabel9.setText("TO");
 
         jDateChooser2.setBackground(new java.awt.Color(255, 255, 255));
         jDateChooser2.setForeground(new java.awt.Color(255, 255, 255));
+        jDateChooser2.setDateFormatString("YYYY-MM-dd");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -798,6 +821,11 @@ public class Stock extends javax.swing.JFrame {
         jButton5.grabFocus();
     }//GEN-LAST:event_jFormattedTextField2ActionPerformed
 
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        loadStock();
+    }//GEN-LAST:event_jButton6ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -855,7 +883,6 @@ public class Stock extends javax.swing.JFrame {
         jTextField2.setText("");
         jTextField3.setText("");
         jTable1.clearSelection();
-        jTable2.clearSelection();
         jComboBox1.setSelectedIndex(0);
         jComboBox2.setSelectedIndex(0);
     }
