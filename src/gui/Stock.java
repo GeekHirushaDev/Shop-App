@@ -21,6 +21,12 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Stock extends javax.swing.JFrame {
 
+    private GRN grn;
+
+    public void setGRN(GRN grn) {
+        this.grn = grn;
+    }
+
     HashMap<String, String> brandMap = new HashMap<>();
 
     public Stock() {
@@ -120,7 +126,7 @@ public class Stock extends javax.swing.JFrame {
             Date end = null;
 
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-            
+
             if (jDateChooser1.getDate() != null) {
                 Start = jDateChooser1.getDate();
                 query += "`stock`.`exp` > '" + format.format(Start) + "' AND";
@@ -716,11 +722,11 @@ public class Stock extends javax.swing.JFrame {
 
     private void jComboBox1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jComboBox1KeyPressed
         // TODO add your handling code here:
-        
+
         if (evt.getKeyCode() == 10) {
             jTextField3.grabFocus();
         }
-        
+
     }//GEN-LAST:event_jComboBox1KeyPressed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -737,20 +743,33 @@ public class Stock extends javax.swing.JFrame {
         jTextField3.setText(String.valueOf(jTable1.getValueAt(row, 3)));
         jTextField1.setEnabled(false);
 
+        if (evt.getClickCount() == 2) {
+            if (grn != null) {
+                
+                grn.getProductID().setText(String.valueOf(jTable1.getValueAt(row, 0)));
+                grn.getBrandName().setText(String.valueOf(jTable1.getValueAt(row, 2)));
+                grn.getProductName().setText(String.valueOf(jTable1.getValueAt(row, 3)));
+                this.dispose();
+                
+            }
+            
+        }
+
         loadStock();
+
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jTable1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTable1KeyReleased
         // TODO add your handling code here:
-        
-        int row = jTable1.getSelectedRow();
 
-        jComboBox1.setSelectedItem(String.valueOf(jTable1.getValueAt(row, 2)));
-        jTextField1.setText(String.valueOf(jTable1.getValueAt(row, 0)));
-        jTextField3.setText(String.valueOf(jTable1.getValueAt(row, 3)));
-        jTextField1.setEnabled(false);
-
-        loadStock();
+//        int row = jTable1.getSelectedRow();
+//
+//        jComboBox1.setSelectedItem(String.valueOf(jTable1.getValueAt(row, 2)));
+//        jTextField1.setText(String.valueOf(jTable1.getValueAt(row, 0)));
+//        jTextField3.setText(String.valueOf(jTable1.getValueAt(row, 3)));
+//        jTextField1.setEnabled(false);
+//
+//        loadStock();
     }//GEN-LAST:event_jTable1KeyReleased
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed

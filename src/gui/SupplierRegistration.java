@@ -436,6 +436,7 @@ public class SupplierRegistration extends javax.swing.JFrame {
             if (grn != null) {
                 grn.getjTextField2().setText(String.valueOf(jTable1.getValueAt(row, 0)));
                 grn.getjLabel21().setText(String.valueOf(jTable1.getValueAt(row, 1)) + " " + String.valueOf(jTable1.getValueAt(row, 2)));
+                this.dispose();
             }
         }
 
