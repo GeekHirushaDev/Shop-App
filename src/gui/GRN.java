@@ -18,6 +18,7 @@ public class GRN extends javax.swing.JFrame {
     public GRN() {
         initComponents();
         generateGRNId();
+        jLabel4.setText(SignIn.getEmployeeEmail());
     }
 
     private void generateGRNId(){
