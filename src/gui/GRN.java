@@ -8,6 +8,7 @@ import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import java.util.Date;
 import java.util.HashMap;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import model.MySQL2;
 
@@ -16,7 +17,7 @@ import model.MySQL2;
  * @author Hirusha
  */
 public class GRN extends javax.swing.JFrame {
-
+    
     HashMap<String, GRNItem> grnItemMap = new HashMap<>();
 
     /**
@@ -27,7 +28,7 @@ public class GRN extends javax.swing.JFrame {
         generateGRNId();
         jLabel4.setText(Signin.getEmployeeEmail());
     }
-
+    
     private void generateGRNId() {
         long id = System.currentTimeMillis();
         jTextField1.setText(String.valueOf(id));
@@ -57,7 +58,7 @@ public class GRN extends javax.swing.JFrame {
     public JLabel getProductName() {
         return jLabel12;
     }
-
+    
     public void loadGRN() {
     }
 
@@ -481,12 +482,13 @@ public class GRN extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
+        
         String qty = jFormattedTextField1.getText();
         String buying_price = jFormattedTextField2.getText();
         String selling_price = jFormattedTextField3.getText();
         Date mfd = jDateChooser1.getDate();
         Date exp = jDateChooser2.getDate();
-
+        
         GRNItem grnItem = new GRNItem();
         grnItem.setProductID(jTextField3.getText());
         grnItem.setBrandName(jLabel9.getText());
@@ -496,21 +498,24 @@ public class GRN extends javax.swing.JFrame {
         grnItem.setSellingPrice(Double.parseDouble(selling_price));
         grnItem.setMfd(mfd);
         grnItem.setExp(exp);
-
+        
         if (grnItemMap.get(jTextField3.getText()) == null) {
             grnItemMap.put(jTextField3.getText(), grnItem);
         } else {
-
+            
             GRNItem found = grnItemMap.get(jTextField3.getText());
-
+            
             if (found.getExp().compareTo(exp) == 0
                     && found.getMfd().compareTo(mfd) == 0
                     && found.getBuyingPrice() == Double.parseDouble(buying_price)
                     && found.getSellingPrice() == Double.parseDouble(selling_price)) {
-
+                
+                found.setQty(found.getQty() + Double.parseDouble(qty));
+                
             } else {
-
+                JOptionPane.showMessageDialog(this, "GRN Item Already Exists With Diferent Date and Prices", "Warning", JOptionPane.WARNING_MESSAGE);
             }
+            
         }
 
     }//GEN-LAST:event_jButton4ActionPerformed
