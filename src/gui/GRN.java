@@ -492,13 +492,27 @@ public class GRN extends javax.swing.JFrame {
         grnItem.setBrandName(jLabel9.getText());
         grnItem.setProductName(jLabel12.getText());
         grnItem.setQty(Double.parseDouble(qty));
-        grnItem.setQty(Double.parseDouble(buying_price));
-        grnItem.setQty(Double.parseDouble(selling_price));
+        grnItem.setBuyingPrice(Double.parseDouble(buying_price));
+        grnItem.setSellingPrice(Double.parseDouble(selling_price));
         grnItem.setMfd(mfd);
         grnItem.setExp(exp);
 
-        
-        
+        if (grnItemMap.get(jTextField3.getText()) == null) {
+            grnItemMap.put(jTextField3.getText(), grnItem);
+        } else {
+
+            GRNItem found = grnItemMap.get(jTextField3.getText());
+
+            if (found.getExp().compareTo(exp) == 0
+                    && found.getMfd().compareTo(mfd) == 0
+                    && found.getBuyingPrice() == Double.parseDouble(buying_price)
+                    && found.getSellingPrice() == Double.parseDouble(selling_price)) {
+
+            } else {
+
+            }
+        }
+
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jTextField7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField7ActionPerformed
