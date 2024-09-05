@@ -21,6 +21,12 @@ import model.MySQL2;
  */
 public class SupplierRegistration extends javax.swing.JFrame {
 
+    private GRN grn;
+    
+    public void setGRN(GRN grn) {
+        this.grn = grn;
+    }
+    
     private String companyId;
 
     /**
