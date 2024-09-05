@@ -82,53 +82,61 @@ public class Stock extends javax.swing.JFrame {
                     + "INNER JOIN `brand` ON `brand`.`id` = `product`.`brand_id` ";
 
             int row = jTable1.getSelectedRow();
-            
+
             if (row != -1) {
                 String pid = String.valueOf(jTable1.getValueAt(row, 0));
                 query += "WHERE `product_id` = '" + pid + "'";
             }
-            
+
             double min_price = 0;
             double max_price = 0;
-            
+
             if (!jFormattedTextField1.getText().isEmpty()) {
                 min_price = Double.parseDouble(jFormattedTextField1.getText());
             }
-            
+
             if (!jFormattedTextField2.getText().isEmpty()) {
                 max_price = Double.parseDouble(jFormattedTextField2.getText());
             }
-            
+
+            if (min_price > 0 && max_price == 0) {
+                query += "`stock`.`price` > '" + min_price + "'";
+            } else if (min_price == 0 && max_price > 0) {
+                query += "`stock`.`price` < '" + max_price + "'";
+            } else if (min_price > 0 && max_price > 0) {
+                query += "`stock`.`price` < '" + min_price + "' AND `stock`.`price` < '" + max_price + "'";
+            }
+
             String sort = String.valueOf(jComboBox2.getSelectedItem());
-            
+
             query += "ORDER BY ";
-            
+
             if (sort.equals("Stock ID ASC")) {
                 query += "`stock`.`id` ASC";
             } else if (sort.equals("Stock ID DESC")) {
                 query += "`stock`.`id` DESC";
-            }else if (sort.equals("Product ID ASC")) {
+            } else if (sort.equals("Product ID ASC")) {
                 query += "`product`.`id` ASC";
-            }else if (sort.equals("Product ID DESC")) {
+            } else if (sort.equals("Product ID DESC")) {
                 query += "`product`.`id` DESC";
-            }else if (sort.equals("Brand ASC")) {
+            } else if (sort.equals("Brand ASC")) {
                 query += "`brand`.`name` ASC";
-            }else if (sort.equals("Brand DESC")) {
+            } else if (sort.equals("Brand DESC")) {
                 query += "`brand`.`name` DESC";
-            }else if (sort.equals("Name ASC")) {
+            } else if (sort.equals("Name ASC")) {
                 query += "`product`.`name` ASC";
-            }else if (sort.equals("Name DESC")) {
+            } else if (sort.equals("Name DESC")) {
                 query += "`product`.`name` DESC";
-            }else if (sort.equals("Selling Price ASC")) {
+            } else if (sort.equals("Selling Price ASC")) {
                 query += "`stock`.`price` ASC";
-            }else if (sort.equals("Selling Price DESC")) {
+            } else if (sort.equals("Selling Price DESC")) {
                 query += "`stock`.`price` DESC";
-            }else if (sort.equals("Quantity ASC")) {
+            } else if (sort.equals("Quantity ASC")) {
                 query += "`stock`.`qty` ASC";
-            }else if (sort.equals("Quantity DESC")) {
+            } else if (sort.equals("Quantity DESC")) {
                 query += "`stock`.`qty` DESC";
             }
-            
+
             ResultSet resultSet = MySQL2.executeSearch(query);
 
             DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
@@ -400,6 +408,11 @@ public class Stock extends javax.swing.JFrame {
 
         jButton5.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jButton5.setText("Find");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         jLabel8.setText("EXP :");
 
@@ -728,6 +741,11 @@ public class Stock extends javax.swing.JFrame {
         resetProductUI();
         loadStock();
     }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
