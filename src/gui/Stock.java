@@ -7,6 +7,7 @@ package gui;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import model.MySQL2;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Vector;
@@ -88,7 +89,7 @@ public class Stock extends javax.swing.JFrame {
                 String pid = String.valueOf(jTable1.getValueAt(row, 0));
                 query += "WHERE `product_id` = '" + pid + "'";
             }
-            
+
             if (query.contains("WHERE")) {
                 query += "AND ";
             } else {
@@ -106,7 +107,6 @@ public class Stock extends javax.swing.JFrame {
                 max_price = Double.parseDouble(jFormattedTextField2.getText());
             }
 
-            
             if (min_price > 0 && max_price == 0) {
                 query += "`stock`.`price` > '" + min_price + "'";
             } else if (min_price == 0 && max_price > 0) {
@@ -116,26 +116,27 @@ public class Stock extends javax.swing.JFrame {
             }
 
             // exp
-            
             Date Start = null;
             Date end = null;
+
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             
             if (jDateChooser1.getDate() != null) {
                 Start = jDateChooser1.getDate();
+                query += "`stock`.`exp` > '" + format.format(Start) + "' AND";
             }
-            
+
             if (jDateChooser2.getDate() != null) {
-                end = jDateChooser1.getDate();
+                end = jDateChooser2.getDate();
+                query += "`stock`.`exp` < '" + format.format(end) + "'";
             }
-            
-            
-            
+
             String sort = String.valueOf(jComboBox2.getSelectedItem());
 
             query += "ORDER BY ";
-            
+
             query = query.replace("WHERE ORDER BY ", "ORDER BY ");
-            
+
             query = query.replace("AND ORDER BY ", "ORDER BY ");
 
             if (sort.equals("Stock ID ASC")) {
@@ -479,13 +480,13 @@ public class Stock extends javax.swing.JFrame {
 
         jDateChooser1.setBackground(new java.awt.Color(255, 255, 255));
         jDateChooser1.setForeground(new java.awt.Color(255, 255, 255));
-        jDateChooser1.setDateFormatString("YYYY-MM-dd");
+        jDateChooser1.setDateFormatString("yyyy-MM-dd");
 
         jLabel9.setText("TO");
 
         jDateChooser2.setBackground(new java.awt.Color(255, 255, 255));
         jDateChooser2.setForeground(new java.awt.Color(255, 255, 255));
-        jDateChooser2.setDateFormatString("YYYY-MM-dd");
+        jDateChooser2.setDateFormatString("yyyy-MM-dd");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -715,9 +716,11 @@ public class Stock extends javax.swing.JFrame {
 
     private void jComboBox1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jComboBox1KeyPressed
         // TODO add your handling code here:
+        
         if (evt.getKeyCode() == 10) {
             jTextField3.grabFocus();
         }
+        
     }//GEN-LAST:event_jComboBox1KeyPressed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -739,6 +742,7 @@ public class Stock extends javax.swing.JFrame {
 
     private void jTable1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTable1KeyReleased
         // TODO add your handling code here:
+        
         int row = jTable1.getSelectedRow();
 
         jComboBox1.setSelectedItem(String.valueOf(jTable1.getValueAt(row, 2)));
@@ -883,6 +887,9 @@ public class Stock extends javax.swing.JFrame {
         jTextField2.setText("");
         jTextField3.setText("");
         jTable1.clearSelection();
+        jTable2.clearSelection();
+        jDateChooser1.setDate(null);
+        jDateChooser2.setDate(null);
         jComboBox1.setSelectedIndex(0);
         jComboBox2.setSelectedIndex(0);
     }
