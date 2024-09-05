@@ -22,11 +22,11 @@ import model.MySQL2;
 public class SupplierRegistration extends javax.swing.JFrame {
 
     private GRN grn;
-    
+
     public void setGRN(GRN grn) {
         this.grn = grn;
     }
-    
+
     private String companyId;
 
     /**
@@ -431,6 +431,13 @@ public class SupplierRegistration extends javax.swing.JFrame {
 
         jTextField1.setEnabled(false);
         jButton2.setEnabled(false);
+
+        if (evt.getClickCount() == 2) {
+            if (grn != null) {
+                grn.getjTextField2().setText(String.valueOf(jTable1.getValueAt(row, 0)));
+                grn.getjLabel21().setText(String.valueOf(jTable1.getValueAt(row, 1)) + " " + String.valueOf(jTable1.getValueAt(row, 2)));
+            }
+        }
 
         try {
 

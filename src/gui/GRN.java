@@ -20,7 +20,7 @@ public class GRN extends javax.swing.JFrame {
     public GRN() {
         initComponents();
         generateGRNId();
-        jLabel4.setText(SignIn.getEmployeeEmail());
+        jLabel4.setText(Signin.getEmployeeEmail());
     }
 
     private void generateGRNId(){
@@ -32,7 +32,7 @@ public class GRN extends javax.swing.JFrame {
         return jTextField2;
     }
     
-    public JLabel jLabel21(){
+    public JLabel getjLabel21(){
         return jLabel21;
     }
     
@@ -458,6 +458,7 @@ public class GRN extends javax.swing.JFrame {
         // TODO add your handling code here:
         SupplierRegistration sr = new SupplierRegistration();
         sr.setVisible(true);
+        sr.setGRN(this);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

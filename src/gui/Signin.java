@@ -16,6 +16,16 @@ import java.sql.ResultSet;
  */
 public class Signin extends javax.swing.JFrame {
 
+    private static String employeeEmail;
+
+    public static String getEmployeeEmail(){
+        return employeeEmail;
+    }
+
+    public static void setEmployeeEmail(String employeeEmail){
+        Signin.employeeEmail = employeeEmail;
+    }    
+
     /**
      * Creates new form Signin
      */
@@ -160,6 +170,7 @@ public class Signin extends javax.swing.JFrame {
                     Home home = new Home(email, fName, lName);
                     home.setVisible(true);
                     this.dispose();
+                    setEmployeeEmail(email);
 
                 } else {
 
