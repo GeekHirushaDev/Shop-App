@@ -513,7 +513,7 @@ public class GRN extends javax.swing.JFrame {
                 found.setQty(found.getQty() + Double.parseDouble(qty));
                 
             } else {
-                JOptionPane.showMessageDialog(this, "GRN Item Already Exists With Diferent Date and Prices", "Warning", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "GRN Item Already Exists With Diferent Date and Prices", "Error", JOptionPane.ERROR_MESSAGE);
             }
             
         }
