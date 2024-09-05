@@ -5,11 +5,15 @@
 package gui;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+import java.lang.reflect.Member;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Vector;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
 
 /**
@@ -27,6 +31,7 @@ public class GRN extends javax.swing.JFrame {
         initComponents();
         generateGRNId();
         jLabel4.setText(Signin.getEmployeeEmail());
+        loadGRNItem();
     }
     
     private void generateGRNId() {
@@ -57,6 +62,36 @@ public class GRN extends javax.swing.JFrame {
     // Product Name
     public JLabel getProductName() {
         return jLabel12;
+    }
+    
+    public void loadGRNItem() {
+        
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+        
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        
+        double total = 0;
+        
+        for (GRNItem grnItem : grnItemMap.values()) {
+            Vector<String> vector = new Vector<>();
+            vector.add(grnItem.getProductID());
+            vector.add(grnItem.getBrandName());
+            vector.add(grnItem.getProductName());
+            vector.add(String.valueOf(grnItem.getQty()));
+            vector.add(String.valueOf(grnItem.getBuyingPrice()));
+            vector.add(String.valueOf(grnItem.getSellingPrice()));
+            vector.add(format.format(grnItem.getMfd()));
+            vector.add(format.format(grnItem.getExp()));
+            
+            double itemTotal = grnItem.getQty() * grnItem.getBuyingPrice();
+            total += itemTotal;
+            vector.add(String.valueOf(itemTotal));
+            
+            model.addRow(vector);
+        }
+        
+        jLabel19.setText(String.valueOf(total));
     }
     
     public void loadGRN() {
@@ -482,7 +517,7 @@ public class GRN extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        
+
         String qty = jFormattedTextField1.getText();
         String buying_price = jFormattedTextField2.getText();
         String selling_price = jFormattedTextField3.getText();
@@ -501,6 +536,8 @@ public class GRN extends javax.swing.JFrame {
         
         if (grnItemMap.get(jTextField3.getText()) == null) {
             grnItemMap.put(jTextField3.getText(), grnItem);
+            loadGRNItem();
+            
         } else {
             
             GRNItem found = grnItemMap.get(jTextField3.getText());
@@ -511,7 +548,7 @@ public class GRN extends javax.swing.JFrame {
                     && found.getSellingPrice() == Double.parseDouble(selling_price)) {
                 
                 found.setQty(found.getQty() + Double.parseDouble(qty));
-                
+                loadGRNItem();
             } else {
                 JOptionPane.showMessageDialog(this, "GRN Item Already Exists With Diferent Date and Prices", "Error", JOptionPane.ERROR_MESSAGE);
             }
