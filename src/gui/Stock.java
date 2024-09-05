@@ -88,6 +88,17 @@ public class Stock extends javax.swing.JFrame {
                 query += "WHERE `product_id` = '" + pid + "'";
             }
             
+            double min_price = 0;
+            double max_price = 0;
+            
+            if (!jFormattedTextField1.getText().isEmpty()) {
+                min_price = Double.parseDouble(jFormattedTextField1.getText());
+            }
+            
+            if (!jFormattedTextField2.getText().isEmpty()) {
+                max_price = Double.parseDouble(jFormattedTextField2.getText());
+            }
+            
             String sort = String.valueOf(jComboBox2.getSelectedItem());
             
             query += "ORDER BY ";
