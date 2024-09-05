@@ -25,7 +25,7 @@ public class Stock extends javax.swing.JFrame {
         initComponents();
         loadBrand();
         loadProducts();
-        loadStock("");
+        loadStock();
         jTextField1.grabFocus();
     }
 
@@ -73,7 +73,7 @@ public class Stock extends javax.swing.JFrame {
         }
     }
 
-    private void loadStock(String pid) {
+    private void loadStock() {
 
         try {
 
@@ -81,7 +81,10 @@ public class Stock extends javax.swing.JFrame {
                     + " INNER JOIN `product` ON `stock`.`product_id` = `product`.`id`"
                     + "INNER JOIN `brand` ON `brand`.`id` = `product`.`brand_id` ";
 
-            if (!pid.isEmpty()) {
+            int row = jTable1.getSelectedRow();
+            
+            if (row != -1) {
+                String pid = String.valueOf(jTable1.getValueAt(row, 0));
                 query += "WHERE `product_id` = '" + pid + "'";
             }
             
@@ -303,11 +306,12 @@ public class Stock extends javax.swing.JFrame {
                 .addGap(15, 15, 15)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField2)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel2)
+                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGap(27, 27, 27))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(1, 1, 1)
@@ -646,7 +650,7 @@ public class Stock extends javax.swing.JFrame {
         jTextField3.setText(String.valueOf(jTable1.getValueAt(row, 3)));
         jTextField1.setEnabled(false);
 
-        loadStock(String.valueOf(jTable1.getValueAt(row, 0)));
+        loadStock();
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jTable1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTable1KeyReleased
@@ -658,7 +662,7 @@ public class Stock extends javax.swing.JFrame {
         jTextField3.setText(String.valueOf(jTable1.getValueAt(row, 3)));
         jTextField1.setEnabled(false);
 
-        loadStock(String.valueOf(jTable1.getValueAt(row, 0)));
+        loadStock();
     }//GEN-LAST:event_jTable1KeyReleased
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -699,13 +703,13 @@ public class Stock extends javax.swing.JFrame {
 
     private void jComboBox2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox2ItemStateChanged
         // TODO add your handling code here:
-        loadStock("");
+        loadStock();
     }//GEN-LAST:event_jComboBox2ItemStateChanged
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
         resetProductUI();
-        loadStock("");
+        loadStock();
     }//GEN-LAST:event_jButton7ActionPerformed
 
     /**
