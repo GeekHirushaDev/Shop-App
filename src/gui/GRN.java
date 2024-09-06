@@ -625,6 +625,7 @@ public class GRN extends javax.swing.JFrame {
                 String sid = "";
 
                 if (resultSet.next()) {
+                    
                     // existing stock
                     sid = resultSet.getString("id");
 
