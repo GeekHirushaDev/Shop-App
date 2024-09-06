@@ -446,7 +446,7 @@ public class SupplierRegistration extends javax.swing.JFrame {
 
             double total = 0;
 
-            HashMap<Integer, Double> grns = new HashMap<>();
+            HashMap<Long, Double> grns = new HashMap<>();
 
             while (resultSet.next()) {
                 double qty = resultSet.getDouble("grn_item.qty");
@@ -456,7 +456,7 @@ public class SupplierRegistration extends javax.swing.JFrame {
 //                total = total + itemTotal;
                 total += itemTotal;
 
-                grns.put(resultSet.getInt("grn.id"), resultSet.getDouble("grn.paid_amount"));
+                grns.put(resultSet.getLong("grn.id"), resultSet.getDouble("grn.paid_amount"));
 
             }
 
