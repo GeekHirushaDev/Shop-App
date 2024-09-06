@@ -17,6 +17,12 @@ import model.MySQL2;
  */
 public class CustomerRegistration extends javax.swing.JFrame {
 
+    private Invoice invoice;
+
+    public void setInvoice(Invoice invoice) {
+        this.invoice = invoice;
+    }
+    
     /**
      * Creates new form CustomerRegistration
      */
@@ -335,6 +341,16 @@ public class CustomerRegistration extends javax.swing.JFrame {
         jTextField2.setText(fname);
         jTextField3.setText(lname);
         jTextField4.setText(email);
+        
+        
+        if (evt.getClickCount() == 2) {
+            if (invoice != null) {
+                invoice.getCustomerMobile().setText(String.valueOf(jTable1.getValueAt(row, 0)));
+                invoice.getCustomerName().setText(String.valueOf(jTable1.getValueAt(row, 1)) + " " + String.valueOf(jTable1.getValueAt(row, 2)));
+                this.dispose();
+            }
+        }
+        
 
         try {
 
