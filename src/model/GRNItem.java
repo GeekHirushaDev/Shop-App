@@ -1,6 +1,7 @@
 
-package gui;
+package model;
 
+import gui.*;
 import java.util.Date;
 
 public class GRNItem {

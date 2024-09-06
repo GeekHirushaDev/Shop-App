@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
+import model.GRNItem;
 import java.sql.ResultSet;
 
 /**

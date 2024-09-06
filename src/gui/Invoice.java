@@ -5,9 +5,12 @@
 package gui;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+import java.util.HashMap;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import model.InvoiceItem;
 
 /**
  *
@@ -15,6 +18,8 @@ import javax.swing.JTextField;
  */
 public class Invoice extends javax.swing.JFrame {
 
+    HashMap<String, InvoiceItem> invoiceItemMap = new HashMap<>();
+    
     public JTextField getCustomerMobile() {
         return jTextField2;
     }
@@ -500,6 +505,24 @@ public class Invoice extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
+        String stockID = jTextField3.getText();
+        String brand = jLabel10.getText();
+        String productName = jLabel13.getText();
+        String sellingPrice = jFormattedTextField2.getText();
+        String qty = jFormattedTextField1.getText();
+        String mfd = jLabel15.getText();
+        String exp = jLabel17.getText();
+        
+        InvoiceItem invoiceItem = new InvoiceItem();
+        invoiceItem.setBrand(brand);
+        invoiceItem.setExp(exp);
+        invoiceItem.setMfd(mfd);
+        invoiceItem.setName(productName);
+        invoiceItem.setQty(qty);
+        invoiceItem.setSellingPrice(sellingPrice);
+        invoiceItem.setStockID(stockID);
+
+        invoiceItemMap.put(stockID, invoiceItem);
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jFormattedTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextField6ActionPerformed
