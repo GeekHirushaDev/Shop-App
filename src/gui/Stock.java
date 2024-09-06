@@ -27,6 +27,12 @@ public class Stock extends javax.swing.JFrame {
         this.grn = grn;
     }
 
+    private Invoice invoice;
+
+    public void setInvoice(Invoice invoice) {
+        this.invoice = invoice;
+    }
+
     HashMap<String, String> brandMap = new HashMap<>();
 
     public Stock() {
@@ -573,6 +579,11 @@ public class Stock extends javax.swing.JFrame {
             }
         });
         jTable2.getTableHeader().setReorderingAllowed(false);
+        jTable2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable2MouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(jTable2);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -745,14 +756,14 @@ public class Stock extends javax.swing.JFrame {
 
         if (evt.getClickCount() == 2) {
             if (grn != null) {
-                
+
                 grn.getProductID().setText(String.valueOf(jTable1.getValueAt(row, 0)));
                 grn.getBrandName().setText(String.valueOf(jTable1.getValueAt(row, 2)));
                 grn.getProductName().setText(String.valueOf(jTable1.getValueAt(row, 3)));
                 this.dispose();
-                
+
             }
-            
+
         }
 
         loadStock();
@@ -848,6 +859,24 @@ public class Stock extends javax.swing.JFrame {
         // TODO add your handling code here:
         loadStock();
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseClicked
+        // TODO add your handling code here:
+        int row = jTable2.getSelectedRow();
+
+        if (evt.getClickCount() == 2) {
+            if (invoice != null) {
+                invoice.getStockID().setText(String.valueOf(jTable2.getValueAt(row, 0)));
+                invoice.getBrandName().setText(String.valueOf(jTable2.getValueAt(row, 2)));
+                invoice.getProductName().setText(String.valueOf(jTable2.getValueAt(row, 3)));
+                invoice.getProductPrice().setText(String.valueOf(jTable2.getValueAt(row, 4)));
+                invoice.getProductMFD().setText(String.valueOf(jTable2.getValueAt(row, 6)));
+                invoice.getProductEXP().setText(String.valueOf(jTable2.getValueAt(row, 7)));
+                invoice.getProductQTY().grabFocus();
+                this.dispose();
+            }
+        }
+    }//GEN-LAST:event_jTable2MouseClicked
 
     /**
      * @param args the command line arguments

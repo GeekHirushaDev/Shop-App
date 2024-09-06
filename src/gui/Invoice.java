@@ -5,6 +5,7 @@
 package gui;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
@@ -21,6 +22,35 @@ public class Invoice extends javax.swing.JFrame {
     public JLabel getCustomerName() {
         return jLabel6;
     }
+    
+    public JTextField getStockID() {
+        return jTextField3;
+    }
+    
+    public JLabel getBrandName() {
+        return jLabel10;
+    }
+    
+    public JLabel getProductName() {
+        return jLabel13;
+    }
+    
+    public JFormattedTextField getProductPrice() {
+        return jFormattedTextField2;
+    }
+    
+    public JFormattedTextField getProductQTY() {
+        return jFormattedTextField1;
+    }
+    
+    public JLabel getProductMFD() {
+        return jLabel15;
+    }
+    
+    public JLabel getProductEXP() {
+        return jLabel17;
+    }
+    
     
     /**
      * Creates new form Invoice
@@ -441,6 +471,9 @@ public class Invoice extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+        Stock stock = new Stock();
+        stock.setInvoice(this);
+        stock.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jFormattedTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextField2ActionPerformed
@@ -449,6 +482,7 @@ public class Invoice extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
+        resetUI();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -523,4 +557,17 @@ public class Invoice extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
+
+   private void resetUI(){
+        jTextField2.setText("");
+        jLabel6.setText("");
+        jTextField3.setText("");
+        jLabel10.setText("");
+        jLabel13.setText("");
+        jFormattedTextField2.setText("");
+        jFormattedTextField1.setText("");
+        jLabel15.setText("");
+        jLabel17.setText("");
+        jTable1.clearSelection();
+   }
 }
