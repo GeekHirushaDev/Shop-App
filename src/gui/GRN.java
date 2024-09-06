@@ -5,6 +5,7 @@
 package gui;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+import java.awt.Color;
 import java.lang.reflect.Member;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -21,7 +22,7 @@ import model.MySQL2;
  * @author Hirusha
  */
 public class GRN extends javax.swing.JFrame {
-    
+
     HashMap<String, GRNItem> grnItemMap = new HashMap<>();
 
     /**
@@ -33,7 +34,7 @@ public class GRN extends javax.swing.JFrame {
         jLabel4.setText(Signin.getEmployeeEmail());
         loadGRNItem();
     }
-    
+
     private void generateGRNId() {
         long id = System.currentTimeMillis();
         jTextField1.setText(String.valueOf(id));
@@ -63,16 +64,16 @@ public class GRN extends javax.swing.JFrame {
     public JLabel getProductName() {
         return jLabel12;
     }
-    
+
     public void loadGRNItem() {
-        
+
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
-        
+
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        
+
         double total = 0;
-        
+
         for (GRNItem grnItem : grnItemMap.values()) {
             Vector<String> vector = new Vector<>();
             vector.add(grnItem.getProductID());
@@ -83,17 +84,17 @@ public class GRN extends javax.swing.JFrame {
             vector.add(String.valueOf(grnItem.getSellingPrice()));
             vector.add(format.format(grnItem.getMfd()));
             vector.add(format.format(grnItem.getExp()));
-            
+
             double itemTotal = grnItem.getQty() * grnItem.getBuyingPrice();
             total += itemTotal;
             vector.add(String.valueOf(itemTotal));
-            
+
             model.addRow(vector);
         }
-        
+
         jLabel19.setText(String.valueOf(total));
     }
-    
+
     public void loadGRN() {
     }
 
@@ -413,7 +414,7 @@ public class GRN extends javax.swing.JFrame {
         jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel19.setText("0.00");
 
-        jLabel20.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel20.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel20.setText("0.00");
 
@@ -460,9 +461,9 @@ public class GRN extends javax.swing.JFrame {
                     .addComponent(jLabel17)
                     .addComponent(jFormattedTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(14, 14, 14)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel18)
-                    .addComponent(jLabel20))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(20, Short.MAX_VALUE))
@@ -473,7 +474,7 @@ public class GRN extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(942, Short.MAX_VALUE)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20))
         );
@@ -502,7 +503,7 @@ public class GRN extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(8, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -524,7 +525,7 @@ public class GRN extends javax.swing.JFrame {
         String selling_price = jFormattedTextField3.getText();
         Date mfd = jDateChooser1.getDate();
         Date exp = jDateChooser2.getDate();
-        
+
         GRNItem grnItem = new GRNItem();
         grnItem.setProductID(jTextField3.getText());
         grnItem.setBrandName(jLabel9.getText());
@@ -534,26 +535,26 @@ public class GRN extends javax.swing.JFrame {
         grnItem.setSellingPrice(Double.parseDouble(selling_price));
         grnItem.setMfd(mfd);
         grnItem.setExp(exp);
-        
+
         if (grnItemMap.get(jTextField3.getText()) == null) {
             grnItemMap.put(jTextField3.getText(), grnItem);
             loadGRNItem();
-            
+
         } else {
-            
+
             GRNItem found = grnItemMap.get(jTextField3.getText());
-            
+
             if (found.getExp().compareTo(exp) == 0
                     && found.getMfd().compareTo(mfd) == 0
                     && found.getBuyingPrice() == Double.parseDouble(buying_price)
                     && found.getSellingPrice() == Double.parseDouble(selling_price)) {
-                
+
                 found.setQty(found.getQty() + Double.parseDouble(qty));
                 loadGRNItem();
             } else {
                 JOptionPane.showMessageDialog(this, "GRN Item Already Exists With Diferent Date and Prices", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            
+
         }
 
     }//GEN-LAST:event_jButton4ActionPerformed
@@ -573,10 +574,20 @@ public class GRN extends javax.swing.JFrame {
         // TODO add your handling code here:
         String total = jLabel19.getText();
         String payment = jFormattedTextField4.getText();
-        
-        double balance = Double.parseDouble(payment) - Double.parseDouble(total);
-        jLabel20.setText(String.valueOf(balance));
-        
+
+        if (payment.isEmpty()) {
+            payment = "0";
+        } else if (!payment.matches("^(0|[1-9]\\d*)?(\\.\\d+)?(?<=\\d)$")) {
+            jLabel20.setText("INVALID");
+            jLabel20.setForeground(Color.red);
+        } else {
+            
+            double balance = Double.parseDouble(payment) - Double.parseDouble(total);
+            jLabel20.setText(String.valueOf(balance));
+            jLabel20.setForeground(Color.white);
+            
+        }
+
     }//GEN-LAST:event_jFormattedTextField4KeyReleased
 
     /**
