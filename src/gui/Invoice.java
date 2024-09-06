@@ -148,20 +148,23 @@ public class Invoice extends javax.swing.JFrame {
         if (total < 0) {
             //error
         } else {
-
             // discount OK
+
             if (withdrowPoints) {
 
-                if (Double.parseDouble(jFormattedTextField4.getText()) <= total) {
-                    
+                if (Double.parseDouble(jTextField4.getText()) <= total) {
+
                     newPoints = 0;
-                    total -= Double.parseDouble(jFormattedTextField5.getText());
+                    total -= Double.parseDouble(jTextField4.getText());
+                    payment -= total;
                     
                 } else {
-
+                    
+                    newPoints = Double.parseDouble(jTextField4.getText()) - total;
+                    balance = 0;
+                    
                 }
-
-                payment += Double.parseDouble(jFormattedTextField5.getText());
+                
             } else {
 
             }
