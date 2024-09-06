@@ -604,6 +604,8 @@ public class GRN extends javax.swing.JFrame {
 
         try {
 
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
             String grnNumber = jTextField1.getText();
             String SupplierMobile = jTextField2.getText();
             String EmployeeEmail = jLabel4.getText();
@@ -612,18 +614,27 @@ public class GRN extends javax.swing.JFrame {
 
             MySQL2.executeIUD("INSERT INTO `grn` VALUES('" + grnNumber + "','" + SupplierMobile + "','" + dateTime + "','" + EmployeeEmail + "','" + payidAmount + "')");
 
-            for (GRNItem grntItem : grnItemMap.values()) {
+            for (GRNItem grnItem : grnItemMap.values()) {
 
                 ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `stock` WHERE"
-                        + " `product_id` = '" + grntItem.getProductID() + "' AND"
-                        + " `price` = '" + grntItem.getSellingPrice() + "' AND"
-                        + " `mfd` = '" + grntItem.getMfd() + "' AND"
-                        + " `exp` = '" + grntItem.getExp() + "'");
+                        + " `product_id` = '" + grnItem.getProductID() + "' AND"
+                        + " `price` = '" + grnItem.getSellingPrice() + "' AND"
+                        + " `mfd` = '" + sdf.format(grnItem.getMfd()) + "' AND"
+                        + " `exp` = '" + sdf.format(grnItem.getExp()) + "'");
 
                 if (resultSet.next()) {
                     // existing stock
+                    String currentQty = resultSet.getString("qty");
+                    String updatedQty = String.valueOf(Double.parseDouble(currentQty) + grnItem.getQty());
+
+                    MySQL2.executeIUD("UPDATE `stock` SET 'qty' = '" + updatedQty + "' WHERE `id` = '" + resultSet.getString("id") + "'");
+
                 } else {
                     // new stock
+
+                    MySQL2.executeSearch("INSERT INTO `stock`(`product_id`,`qty`,`price`,`mfd`,`exp`) "
+                            + "VALUSE('" + grnItem.getProductID() + ",'" + grnItem.getQty() + ","
+                            + "'" + grnItem.getSellingPrice() + ",'" + sdf.format(grnItem.getMfd()) + "','" + sdf.format(grnItem.getExp()) + ")");
                 }
 
             }
@@ -633,7 +644,6 @@ public class GRN extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton6ActionPerformed
 
-    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         FlatMacDarkLaf.setup();
