@@ -170,6 +170,7 @@ public class Signin extends javax.swing.JFrame {
                     Home home = new Home(email, fName, lName);
                     home.setVisible(true);
                     this.dispose();
+                    
                     setEmployeeEmail(email);
 
                 } else {
