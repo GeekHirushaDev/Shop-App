@@ -139,6 +139,7 @@ public class Invoice extends javax.swing.JFrame {
     private double balance = 0;
     private boolean withdrowPoints = false;
     private String paymentMethod = "Select";
+    private double newPoints = 0;
 
     private void calculate() {
 
@@ -150,6 +151,16 @@ public class Invoice extends javax.swing.JFrame {
 
             // discount OK
             if (withdrowPoints) {
+
+                if (Double.parseDouble(jFormattedTextField4.getText()) <= total) {
+                    
+                    newPoints = 0;
+                    total -= Double.parseDouble(jFormattedTextField5.getText());
+                    
+                } else {
+
+                }
+
                 payment += Double.parseDouble(jFormattedTextField5.getText());
             } else {
 
