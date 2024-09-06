@@ -17,6 +17,15 @@ public class Invoice extends javax.swing.JFrame {
      */
     public Invoice() {
         initComponents();
+        generateInvoiceId();
+        jLabel3.setText("amal@shop.com");
+//        jLabel3.setText(Signin.getEmployeeEmail());
+    }
+
+    
+    private void generateInvoiceId() {
+        long id = System.currentTimeMillis();
+        jTextField1.setText(String.valueOf(id));
     }
 
     /**
@@ -81,6 +90,8 @@ public class Invoice extends javax.swing.JFrame {
         jLabel4.setText("INVOICE NUMBER");
 
         jLabel5.setText("CUSTOMER");
+
+        jTextField1.setEditable(false);
 
         jLabel6.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 0, 0));
