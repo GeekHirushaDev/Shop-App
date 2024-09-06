@@ -419,6 +419,11 @@ public class GRN extends javax.swing.JFrame {
         jLabel20.setText("0.00");
 
         jButton6.setText("Save GRN");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         jFormattedTextField4.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
         jFormattedTextField4.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -576,19 +581,38 @@ public class GRN extends javax.swing.JFrame {
         String payment = jFormattedTextField4.getText();
 
         if (payment.isEmpty()) {
+
             payment = "0";
+
         } else if (!payment.matches("^(0|[1-9]\\d*)?(\\.\\d+)?(?<=\\d)$")) {
+
             jLabel20.setText("INVALID");
             jLabel20.setForeground(Color.red);
+
         } else {
-            
+
             double balance = Double.parseDouble(payment) - Double.parseDouble(total);
             jLabel20.setText(String.valueOf(balance));
-            jLabel20.setForeground(Color.white);
-            
+            jLabel20.setForeground(jLabel19.getForeground());
+
         }
 
     }//GEN-LAST:event_jFormattedTextField4KeyReleased
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+
+        try {
+            String grnNumber = jTextField1.getText();
+            String SupplierMobile = jTextField2.getText();
+            String EmployeeEmail = jLabel4.getText();
+            String dateTime = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+            String payidAmount = jFormattedTextField4.getText();
+
+            MySQL2.executeIUD("INSERT INTO `grn` VALUES('" + grnNumber + "','" + SupplierMobile + "','" + dateTime + "','" + EmployeeEmail + "','" + payidAmount + "')");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_jButton6ActionPerformed
 
     /**
      * @param args the command line arguments
