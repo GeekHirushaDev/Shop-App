@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
+import java.sql.ResultSet;
 
 /**
  *
@@ -602,6 +603,7 @@ public class GRN extends javax.swing.JFrame {
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
 
         try {
+
             String grnNumber = jTextField1.getText();
             String SupplierMobile = jTextField2.getText();
             String EmployeeEmail = jLabel4.getText();
@@ -609,14 +611,29 @@ public class GRN extends javax.swing.JFrame {
             String payidAmount = jFormattedTextField4.getText();
 
             MySQL2.executeIUD("INSERT INTO `grn` VALUES('" + grnNumber + "','" + SupplierMobile + "','" + dateTime + "','" + EmployeeEmail + "','" + payidAmount + "')");
+
+            for (GRNItem grntItem : grnItemMap.values()) {
+
+                ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `stock` WHERE"
+                        + " `product_id` = '" + grntItem.getProductID() + "' AND"
+                        + " `price` = '" + grntItem.getSellingPrice() + "' AND"
+                        + " `mfd` = '" + grntItem.getMfd() + "' AND"
+                        + " `exp` = '" + grntItem.getExp() + "'");
+
+                if (resultSet.next()) {
+                    // existing stock
+                } else {
+                    // new stock
+                }
+
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }//GEN-LAST:event_jButton6ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         FlatMacDarkLaf.setup();
