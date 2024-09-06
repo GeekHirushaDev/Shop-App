@@ -135,10 +135,14 @@
                           <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                              <Component id="jButton3" pref="134" max="32767" attributes="0"/>
-                              <Component id="jTextField3" max="32767" attributes="0"/>
-                              <Component id="jFormattedTextField1" max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="jButton3" alignment="1" max="32767" attributes="0"/>
+                              <Component id="jTextField3" alignment="1" max="32767" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="jFormattedTextField1" min="-2" pref="85" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="jLabel23" pref="43" max="32767" attributes="0"/>
+                              </Group>
                           </Group>
                           <EmptySpace pref="56" max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -225,6 +229,7 @@
                               <Component id="jFormattedTextField1" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
                               <Component id="jLabel8" alignment="3" max="32767" attributes="0"/>
                               <Component id="jButton4" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
+                              <Component id="jLabel23" alignment="1" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                       </Group>
@@ -408,6 +413,17 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton6ActionPerformed"/>
           </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel23">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Dialog" size="12" style="1"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="0" green="ff" red="33" type="rgb"/>
+            </Property>
+            <Property name="horizontalAlignment" type="int" value="0"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>

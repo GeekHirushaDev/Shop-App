@@ -870,6 +870,7 @@ public class Stock extends javax.swing.JFrame {
                 invoice.getBrandName().setText(String.valueOf(jTable2.getValueAt(row, 2)));
                 invoice.getProductName().setText(String.valueOf(jTable2.getValueAt(row, 3)));
                 invoice.getProductPrice().setText(String.valueOf(jTable2.getValueAt(row, 4)));
+                invoice.getProductAvailableQTY().setText(String.valueOf(jTable2.getValueAt(row, 5)));
                 invoice.getProductMFD().setText(String.valueOf(jTable2.getValueAt(row, 6)));
                 invoice.getProductEXP().setText(String.valueOf(jTable2.getValueAt(row, 7)));
                 invoice.getProductQTY().grabFocus();
