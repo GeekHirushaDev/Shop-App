@@ -614,6 +614,7 @@ public class GRN extends javax.swing.JFrame {
 
             MySQL2.executeIUD("INSERT INTO `grn` VALUES('" + grnNumber + "','" + SupplierMobile + "','" + dateTime + "','" + EmployeeEmail + "','" + payidAmount + "')");
 
+            generateGRNId();
             for (GRNItem grnItem : grnItemMap.values()) {
 
                 ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `stock` WHERE"
@@ -625,7 +626,7 @@ public class GRN extends javax.swing.JFrame {
                 String sid = "";
 
                 if (resultSet.next()) {
-                    
+
                     // existing stock
                     sid = resultSet.getString("id");
 
