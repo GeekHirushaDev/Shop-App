@@ -622,20 +622,38 @@ public class GRN extends javax.swing.JFrame {
                         + " `mfd` = '" + sdf.format(grnItem.getMfd()) + "' AND"
                         + " `exp` = '" + sdf.format(grnItem.getExp()) + "'");
 
+                String sid = "";
+
                 if (resultSet.next()) {
                     // existing stock
+                    sid = resultSet.getString("id");
+
                     String currentQty = resultSet.getString("qty");
                     String updatedQty = String.valueOf(Double.parseDouble(currentQty) + grnItem.getQty());
 
-                    MySQL2.executeIUD("UPDATE `stock` SET 'qty' = '" + updatedQty + "' WHERE `id` = '" + resultSet.getString("id") + "'");
+                    MySQL2.executeIUD("UPDATE `stock` SET 'qty' = '" + updatedQty + "' WHERE `id` = '" + sid + "'");
 
                 } else {
                     // new stock
 
-                    MySQL2.executeSearch("INSERT INTO `stock`(`product_id`,`qty`,`price`,`mfd`,`exp`) "
-                            + "VALUSE('" + grnItem.getProductID() + ",'" + grnItem.getQty() + ","
-                            + "'" + grnItem.getSellingPrice() + ",'" + sdf.format(grnItem.getMfd()) + "','" + sdf.format(grnItem.getExp()) + ")");
+                    MySQL2.executeIUD("INSERT INTO `stock`(`product_id`,`qty`,`price`,`mfd`,`exp`) "
+                            + "VALUES('" + grnItem.getProductID() + "','" + grnItem.getQty() + "',"
+                            + "'" + grnItem.getSellingPrice() + "','" + sdf.format(grnItem.getMfd()) + "','" + sdf.format(grnItem.getExp()) + "')");
+
+                    ResultSet resultSet2 = MySQL2.executeSearch("SELECT * FROM `stock` WHERE"
+                            + " `product_id` = '" + grnItem.getProductID() + "' AND"
+                            + " `price` = '" + grnItem.getSellingPrice() + "' AND"
+                            + " `mfd` = '" + sdf.format(grnItem.getMfd()) + "' AND"
+                            + " `exp` = '" + sdf.format(grnItem.getExp()) + "'");
+
+                    if (resultSet2.next()) {
+                        sid = resultSet2.getString("id");
+                    }
+
                 }
+
+                MySQL2.executeIUD("INSERT INTO `grn_item`(`grn_id`,`qty`,`price`,`stock_id`) VALUES"
+                        + "('" + grnNumber + "','" + grnItem.getQty() + "','" + grnItem.getBuyingPrice() + "','" + sid + "')");
 
             }
 
