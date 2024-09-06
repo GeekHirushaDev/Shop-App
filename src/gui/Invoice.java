@@ -17,7 +17,7 @@ import model.InvoiceItem;
  * @author Hirusha
  */
 public class Invoice extends javax.swing.JFrame {
-
+    
     HashMap<String, InvoiceItem> invoiceItemMap = new HashMap<>();
     
     public JTextField getCustomerMobile() {
@@ -59,8 +59,7 @@ public class Invoice extends javax.swing.JFrame {
     public JLabel getProductAvailableQTY() {
         return jLabel23;
     }
-    
-    
+
     /**
      * Creates new form Invoice
      */
@@ -71,7 +70,6 @@ public class Invoice extends javax.swing.JFrame {
         jLabel3.setText("amal@shop.com");
 //        jLabel3.setText(Signin.getEmployeeEmail());
     }
-
     
     private void generateInvoiceId() {
         long id = System.currentTimeMillis();
@@ -521,8 +519,22 @@ public class Invoice extends javax.swing.JFrame {
         invoiceItem.setQty(qty);
         invoiceItem.setSellingPrice(sellingPrice);
         invoiceItem.setStockID(stockID);
-
-        invoiceItemMap.put(stockID, invoiceItem);
+        
+        if (invoiceItemMap.get(stockID) == null) {
+            invoiceItemMap.put(stockID, invoiceItem);
+            
+        } else {
+            
+            InvoiceItem found = invoiceItemMap.get(stockID);
+            
+            int option = JOptionPane.showConfirmDialog(this, "Do you wanna update the Quantity of Product : "
+                    + "" + productName + "", "Message", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+            
+            if (option == JOptionPane.YES_OPTION) {
+                found.setQty(String.valueOf(Double.parseDouble(found.getQty() + Double.parseDouble(qty))));
+            }
+            
+        }
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jFormattedTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextField6ActionPerformed
@@ -595,7 +607,7 @@ public class Invoice extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
 
-   private void resetUI(){
+    private void resetUI() {
         jTextField2.setText("");
         jLabel6.setText("");
         jTextField3.setText("");
@@ -606,5 +618,5 @@ public class Invoice extends javax.swing.JFrame {
         jLabel15.setText("");
         jLabel17.setText("");
         jTable1.clearSelection();
-   }
+    }
 }
