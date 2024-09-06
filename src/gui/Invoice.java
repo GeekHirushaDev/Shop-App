@@ -137,7 +137,7 @@ public class Invoice extends javax.swing.JFrame {
     private double discount = 0;
     private double payment = 0;
     private double balance = 0;
-    private boolean withdrowPoints = false;
+    private boolean withdrawPoints = false;
     private String paymentMethod = "Select";
     private double newPoints = 0;
 
@@ -150,13 +150,19 @@ public class Invoice extends javax.swing.JFrame {
         } else {
             // discount OK
 
-            if (withdrowPoints) {
+            if (withdrawPoints) {
 
-                if (Double.parseDouble(jTextField4.getText()) <= total) {
+                if (Double.parseDouble(jTextField4.getText()) == total) {
 
                     newPoints = 0;
                     total -= Double.parseDouble(jTextField4.getText());
-                    payment -= total;
+                    // no payment required
+                    
+                } else if (Double.parseDouble(jTextField4.getText()) < total) {
+
+                    newPoints = 0;
+                    total -= Double.parseDouble(jTextField4.getText());
+                    // no payment required
                     
                 } else {
                     
