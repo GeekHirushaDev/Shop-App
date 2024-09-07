@@ -813,7 +813,16 @@ public class Invoice extends javax.swing.JFrame {
                 // Stock Update
             }
 
+            double updatedPoints = Double.parseDouble(jTextField3.getText()) / 100;
+
             // withdraw Points
+            if (withdrawPoints) {
+                newPoints += updatedPoints;
+                MySQL2.executeIUD("UPDATE `customer` SET `point` = '" + newPoints + "' WHERE 'mobile' = '" + customerMobile + "'");
+            } else {
+                MySQL2.executeIUD("UPDATE `customer` SET `point` = `point` + '" + updatedPoints + "' WHERE 'mobile' = '" + customerMobile + "'");
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
