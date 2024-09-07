@@ -145,6 +145,18 @@ public class Invoice extends javax.swing.JFrame {
     private double newPoints = 0;
 
     private void calculate() {
+        
+        if (discountField.getText().isEmpty()) {
+            discount = 0;
+        } else {
+            discount = Double.parseDouble(discountField.getText());
+        }
+        
+        if (paymentField.getText().isEmpty()) {
+            payment = 0;
+        } else {
+            payment = Double.parseDouble(paymentField.getText());
+        }
 
         total -= discount;
 
@@ -239,8 +251,8 @@ public class Invoice extends javax.swing.JFrame {
         jFormattedTextField3 = new javax.swing.JFormattedTextField();
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
-        jFormattedTextField4 = new javax.swing.JFormattedTextField();
-        jFormattedTextField5 = new javax.swing.JFormattedTextField();
+        discountField = new javax.swing.JFormattedTextField();
+        paymentField = new javax.swing.JFormattedTextField();
         jLabel20 = new javax.swing.JLabel();
         jFormattedTextField6 = new javax.swing.JFormattedTextField();
         jLabel21 = new javax.swing.JLabel();
@@ -527,23 +539,23 @@ public class Invoice extends javax.swing.JFrame {
         jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel19.setText("Discount");
 
-        jFormattedTextField4.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
-        jFormattedTextField4.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jFormattedTextField4.setText("0");
-        jFormattedTextField4.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
-        jFormattedTextField4.addKeyListener(new java.awt.event.KeyAdapter() {
+        discountField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        discountField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        discountField.setText("0");
+        discountField.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
+        discountField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                jFormattedTextField4KeyReleased(evt);
+                discountFieldKeyReleased(evt);
             }
         });
 
-        jFormattedTextField5.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
-        jFormattedTextField5.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jFormattedTextField5.setText("0");
-        jFormattedTextField5.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
-        jFormattedTextField5.addKeyListener(new java.awt.event.KeyAdapter() {
+        paymentField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        paymentField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        paymentField.setText("0");
+        paymentField.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
+        paymentField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                jFormattedTextField5KeyReleased(evt);
+                paymentFieldKeyReleased(evt);
             }
         });
 
@@ -608,8 +620,8 @@ public class Invoice extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jFormattedTextField6)
-                            .addComponent(jFormattedTextField5)
-                            .addComponent(jFormattedTextField4)
+                            .addComponent(paymentField)
+                            .addComponent(discountField)
                             .addComponent(jFormattedTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jCheckBox1))))
                 .addContainerGap())
@@ -626,7 +638,7 @@ public class Invoice extends javax.swing.JFrame {
                     .addComponent(jLabel18))
                 .addGap(5, 5, 5)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jFormattedTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(discountField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel19))
                 .addGap(5, 5, 5)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -634,7 +646,7 @@ public class Invoice extends javax.swing.JFrame {
                     .addComponent(jLabel22))
                 .addGap(5, 5, 5)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jFormattedTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(paymentField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel20))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -714,17 +726,17 @@ public class Invoice extends javax.swing.JFrame {
         cr.setInvoice(this);
     }//GEN-LAST:event_jButton6ActionPerformed
 
-    private void jFormattedTextField5KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFormattedTextField5KeyReleased
+    private void paymentFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_paymentFieldKeyReleased
         // TODO add your handling code here:
         //4
         calculate();
-    }//GEN-LAST:event_jFormattedTextField5KeyReleased
+    }//GEN-LAST:event_paymentFieldKeyReleased
 
-    private void jFormattedTextField4KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFormattedTextField4KeyReleased
+    private void discountFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_discountFieldKeyReleased
         // TODO add your handling code here:
         //1
         calculate();
-    }//GEN-LAST:event_jFormattedTextField4KeyReleased
+    }//GEN-LAST:event_discountFieldKeyReleased
 
     private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
         // TODO add your handling code here:
@@ -754,6 +766,7 @@ public class Invoice extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JFormattedTextField discountField;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
@@ -763,8 +776,6 @@ public class Invoice extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JFormattedTextField jFormattedTextField2;
     private javax.swing.JFormattedTextField jFormattedTextField3;
-    private javax.swing.JFormattedTextField jFormattedTextField4;
-    private javax.swing.JFormattedTextField jFormattedTextField5;
     private javax.swing.JFormattedTextField jFormattedTextField6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -799,6 +810,7 @@ public class Invoice extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
+    private javax.swing.JFormattedTextField paymentField;
     // End of variables declaration//GEN-END:variables
 
     private void resetUI() {
