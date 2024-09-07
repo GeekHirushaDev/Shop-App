@@ -136,8 +136,8 @@ public class Invoice extends javax.swing.JFrame {
         generateInvoiceId();
         loadInvoiceItems();
         loadPaymentMethod();
-        employeLabel.setText("amal@shop.com");
-//        jLabel3.setText(Signin.getEmployeeEmail());
+//        employeLabel.setText("amal@shop.com");
+        employeLabel.setText(Signin.getEmployeeEmail());
     }
 
     private void generateInvoiceId() {
