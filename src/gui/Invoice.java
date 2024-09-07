@@ -55,7 +55,7 @@ public class Invoice extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
 
-        double total = 0;
+        total = 0;
 
         for (InvoiceItem invoiceItem : invoiceItemMap.values()) {
             Vector<String> vector = new Vector<>();
@@ -132,8 +132,8 @@ public class Invoice extends javax.swing.JFrame {
         generateInvoiceId();
         loadInvoiceItems();
         loadPaymentMethod();
-//        jLabel3.setText("amal@shop.com");
-        jLabel3.setText(Signin.getEmployeeEmail());
+        jLabel3.setText("amal@shop.com");
+//        jLabel3.setText(Signin.getEmployeeEmail());
     }
 
     private void generateInvoiceId() {
