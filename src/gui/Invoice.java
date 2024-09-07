@@ -74,7 +74,7 @@ public class Invoice extends javax.swing.JFrame {
         }
 
         jFormattedTextField3.setText(String.valueOf(total));
-        
+
         //2
         calculate();
     }
@@ -145,17 +145,26 @@ public class Invoice extends javax.swing.JFrame {
     private double newPoints = 0;
 
     private void calculate() {
-        
+
         if (discountField.getText().isEmpty()) {
             discount = 0;
         } else {
             discount = Double.parseDouble(discountField.getText());
         }
-        
+
         if (paymentField.getText().isEmpty()) {
             payment = 0;
         } else {
             payment = Double.parseDouble(paymentField.getText());
+        }
+
+        total = Double.parseDouble(jFormattedTextField3.getText());
+
+        
+        if (jCheckBox1.isSelected()) {
+            withdrawPoints = true;
+        }else{
+            withdrawPoints = false;
         }
 
         total -= discount;
@@ -201,7 +210,7 @@ public class Invoice extends javax.swing.JFrame {
             }
 
             jFormattedTextField3.setText(String.valueOf(this));
-            
+
 //            balance = total - discount - payment;
         }
     }
