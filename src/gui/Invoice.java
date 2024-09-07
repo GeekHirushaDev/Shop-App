@@ -33,7 +33,6 @@ public class Invoice extends javax.swing.JFrame {
             ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `payment_method`");
 
             Vector<String> vector = new Vector<>();
-            vector.add("Select");
 
             while (resultSet.next()) {
                 vector.add(resultSet.getString("name"));
@@ -166,6 +165,10 @@ public class Invoice extends javax.swing.JFrame {
         }else{
             withdrawPoints = false;
         }
+        
+        paymentMethod = String.valueOf(jComboBox1.getSelectedItem());
+        
+        
 
         total -= discount;
 
@@ -196,11 +199,7 @@ public class Invoice extends javax.swing.JFrame {
 
             }
 
-            if (paymentMethod.equals("Select")) {
-
-                JOptionPane.showMessageDialog(this, "Select a Payment Option to Continue Process", "Warning", JOptionPane.WARNING_MESSAGE);
-
-            } else if (paymentMethod.equals("Cash")) {
+            if (paymentMethod.equals("Cash")) {
                 // cash
                 balance = payment - total;
             } else {
