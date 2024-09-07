@@ -14,11 +14,11 @@
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
-	<field name="Field_1" class="java.lang.String"/>
-	<field name="Field_2" class="java.lang.String"/>
-	<field name="Field_3" class="java.lang.String"/>
-	<field name="Field_4" class="java.lang.String"/>
-	<field name="Field_5" class="java.lang.String"/>
+	<field name="COLUMN_1" class="java.lang.String"/>
+	<field name="COLUMN_2" class="java.lang.String"/>
+	<field name="COLUMN_3" class="java.lang.String"/>
+	<field name="COLUMN_4" class="java.lang.String"/>
+	<field name="COLUMN_7" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -160,7 +160,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="13" isBold="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{Field_1}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{COLUMN_1}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="178" y="0" width="130" height="30" uuid="2103e643-c6a3-497f-8920-65a8bee66c6f">
@@ -169,7 +169,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="13" isBold="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{Field_2}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{COLUMN_2}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="308" y="0" width="81" height="30" uuid="aef2c22c-38f1-496f-a7b5-d4e2d4e0d557">
@@ -178,7 +178,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="13" isBold="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{Field_3}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{COLUMN_3}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="389" y="0" width="81" height="30" uuid="8f11b990-93bb-4172-9dc4-7b1d6eb23c7e">
@@ -187,7 +187,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="13" isBold="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{Field_4}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{COLUMN_4}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="470" y="0" width="85" height="30" uuid="d06de574-ba7b-4051-a8ae-285ab0a7b97e">
@@ -196,7 +196,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="13" isBold="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{Field_5}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{COLUMN_7}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="30" y="0" width="50" height="30" uuid="47feec1e-90d1-4af7-beb5-ff0a5a49d6dd"/>
