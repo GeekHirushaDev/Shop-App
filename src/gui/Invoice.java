@@ -6,6 +6,8 @@ package gui;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
@@ -786,7 +788,29 @@ public class Invoice extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-
+        try {
+            
+            String invoiID = jTextField1.getText();
+            String customerMobile = jTextField2.getText();
+            String employeeEmail = jLabel3.getText();
+            String dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+            String paidAmount = paymentField.getText();
+            String paymentMethodID = paymentHashMap.get(String.valueOf(jComboBox1.getSelectedItem()));
+            String discount = String.valueOf(discountField.getText());
+            
+            //Insert to Invoice
+            MySQL2.executeIUD("INSERT INTO `invoice` VALUES ('"+invoiID+"', '"+customerMobile+"', '"+dateTime+"', '"+employeeEmail+"', '"+paidAmount+"', '"+paymentMethodID+"', '"+discount+"')");
+            
+            // insert Into Invoice Item
+            
+            // Stock Update
+            
+            
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
