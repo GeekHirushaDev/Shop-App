@@ -18,6 +18,10 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import model.InvoiceItem;
 import model.MySQL2;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRTableModelDataSource;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -74,14 +78,14 @@ public class Invoice extends javax.swing.JFrame {
             model.addRow(vector);
         }
 
-        jFormattedTextField3.setText(String.valueOf(total));
+        totalField.setText(String.valueOf(total));
 
         //2
         calculate();
     }
 
     public JTextField getCustomerMobile() {
-        return jTextField2;
+        return customerMobileField;
     }
 
     public JLabel getCustomerName() {
@@ -132,13 +136,13 @@ public class Invoice extends javax.swing.JFrame {
         generateInvoiceId();
         loadInvoiceItems();
         loadPaymentMethod();
-        jLabel3.setText("amal@shop.com");
+        employeLabel.setText("amal@shop.com");
 //        jLabel3.setText(Signin.getEmployeeEmail());
     }
 
     private void generateInvoiceId() {
         long id = System.currentTimeMillis();
-        jTextField1.setText(String.valueOf(id));
+        invoiceNumberField.setText(String.valueOf(id));
     }
 
     private double total = 0;
@@ -163,7 +167,7 @@ public class Invoice extends javax.swing.JFrame {
             payment = Double.parseDouble(paymentField.getText());
         }
 
-        total = Double.parseDouble(jFormattedTextField3.getText());
+        total = Double.parseDouble(totalField.getText());
 
         if (jCheckBox1.isSelected()) {
             withdrawPoints = true;
@@ -222,7 +226,7 @@ public class Invoice extends javax.swing.JFrame {
                 jButton1.setEnabled(true);
             }
 
-            jFormattedTextField6.setText(String.valueOf(balance));
+            balanceField.setText(String.valueOf(balance));
         }
     }
 
@@ -238,11 +242,11 @@ public class Invoice extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        employeLabel = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        invoiceNumberField = new javax.swing.JTextField();
+        customerMobileField = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
@@ -268,13 +272,13 @@ public class Invoice extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jFormattedTextField3 = new javax.swing.JFormattedTextField();
+        totalField = new javax.swing.JFormattedTextField();
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         discountField = new javax.swing.JFormattedTextField();
         paymentField = new javax.swing.JFormattedTextField();
         jLabel20 = new javax.swing.JLabel();
-        jFormattedTextField6 = new javax.swing.JFormattedTextField();
+        balanceField = new javax.swing.JFormattedTextField();
         jLabel21 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel22 = new javax.swing.JLabel();
@@ -290,13 +294,13 @@ public class Invoice extends javax.swing.JFrame {
 
         jLabel2.setText("EMPLOYEE");
 
-        jLabel3.setText("EMPLOYEE DETAILS");
+        employeLabel.setText("EMPLOYEE DETAILS");
 
         jLabel4.setText("INVOICE NUMBER");
 
         jLabel5.setText("CUSTOMER");
 
-        jTextField1.setEditable(false);
+        invoiceNumberField.setEditable(false);
 
         jLabel6.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 0, 0));
@@ -385,17 +389,17 @@ public class Invoice extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addGap(18, 18, 18)
-                                .addComponent(jTextField1))
+                                .addComponent(invoiceNumberField))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addGap(42, 42, 42)
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel3))
+                                .addComponent(employeLabel))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel5)
                                 .addGap(53, 53, 53)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(customerMobileField, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(63, 63, 63)
@@ -453,15 +457,15 @@ public class Invoice extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel3))
+                    .addComponent(employeLabel))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField1))
+                    .addComponent(invoiceNumberField))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(customerMobileField, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -546,11 +550,11 @@ public class Invoice extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jFormattedTextField3.setEditable(false);
-        jFormattedTextField3.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
-        jFormattedTextField3.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jFormattedTextField3.setText("0");
-        jFormattedTextField3.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
+        totalField.setEditable(false);
+        totalField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        totalField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        totalField.setText("0");
+        totalField.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
 
         jLabel18.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -584,14 +588,14 @@ public class Invoice extends javax.swing.JFrame {
         jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel20.setText("Payment");
 
-        jFormattedTextField6.setEditable(false);
-        jFormattedTextField6.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
-        jFormattedTextField6.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jFormattedTextField6.setText("0");
-        jFormattedTextField6.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
-        jFormattedTextField6.addActionListener(new java.awt.event.ActionListener() {
+        balanceField.setEditable(false);
+        balanceField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        balanceField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        balanceField.setText("0");
+        balanceField.setFont(new java.awt.Font("Dialog", 1, 16)); // NOI18N
+        balanceField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jFormattedTextField6ActionPerformed(evt);
+                balanceFieldActionPerformed(evt);
             }
         });
 
@@ -652,10 +656,10 @@ public class Invoice extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jFormattedTextField6)
+                                    .addComponent(balanceField)
                                     .addComponent(paymentField)
                                     .addComponent(discountField)
-                                    .addComponent(jFormattedTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(totalField, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jCheckBox1))))
                         .addGap(19, 19, 19)))
                 .addContainerGap())
@@ -668,7 +672,7 @@ public class Invoice extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jFormattedTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(totalField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel18))
                 .addGap(5, 5, 5)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -688,7 +692,7 @@ public class Invoice extends javax.swing.JFrame {
                     .addComponent(jCheckBox1))
                 .addGap(5, 5, 5)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jFormattedTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(balanceField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel21))
                 .addGap(18, 18, 18)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -751,9 +755,9 @@ public class Invoice extends javax.swing.JFrame {
         loadInvoiceItems();
     }//GEN-LAST:event_jButton5ActionPerformed
 
-    private void jFormattedTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextField6ActionPerformed
+    private void balanceFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_balanceFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jFormattedTextField6ActionPerformed
+    }//GEN-LAST:event_balanceFieldActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
@@ -790,9 +794,9 @@ public class Invoice extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
 
-            String invoiceID = jTextField1.getText();
-            String customerMobile = jTextField2.getText();
-            String employeeEmail = jLabel3.getText();
+            String invoiceID = invoiceNumberField.getText();
+            String customerMobile = customerMobileField.getText();
+            String employeeEmail = employeLabel.getText();
             String dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
             String paidAmount = paymentField.getText();
             String paymentMethodID = paymentHashMap.get(String.valueOf(jComboBox1.getSelectedItem()));
@@ -822,7 +826,30 @@ public class Invoice extends javax.swing.JFrame {
             } else {
                 MySQL2.executeIUD("UPDATE `customer` SET `point` = `point` + '" + updatedPoints + "' WHERE 'mobile' = '" + customerMobile + "'");
             }
-
+            // withdraw Points
+            
+            
+            
+            // view or print Report
+            String path = "src/reports//invoice.jasper";
+            
+            HashMap<String,Object> params = new HashMap<>();
+            params.put("Parameter1", totalField.getText());
+            params.put("Parameter2", discountField.getText());
+            params.put("Parameter3", String.valueOf(jComboBox1.getSelectedItem()));
+            params.put("Parameter4", paymentField.getText());
+            params.put("Parameter5", balanceField.getText());
+            params.put("Parameter6", invoiceNumberField.getText());
+            params.put("Parameter7", customerMobileField.getText());
+            params.put("Parameter8", employeLabel.getText());
+            params.put("Parameter9", dateTime);
+            
+            JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable1.getModel());
+            
+            JasperPrint jasperPrint = JasperFillManager.fillReport(path, params,dataSource);
+            
+            JasperViewer.viewReport(jasperPrint,false);
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -845,7 +872,11 @@ public class Invoice extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JFormattedTextField balanceField;
+    private javax.swing.JTextField customerMobileField;
     private javax.swing.JFormattedTextField discountField;
+    private javax.swing.JLabel employeLabel;
+    private javax.swing.JTextField invoiceNumberField;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -855,8 +886,6 @@ public class Invoice extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JFormattedTextField jFormattedTextField2;
-    private javax.swing.JFormattedTextField jFormattedTextField3;
-    private javax.swing.JFormattedTextField jFormattedTextField6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -875,7 +904,6 @@ public class Invoice extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -886,15 +914,14 @@ public class Invoice extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JFormattedTextField paymentField;
+    private javax.swing.JFormattedTextField totalField;
     // End of variables declaration//GEN-END:variables
 
     private void resetUI() {
-        jTextField2.setText("");
+        customerMobileField.setText("");
         jLabel6.setText("");
         jTextField3.setText("");
         jLabel10.setText("");
