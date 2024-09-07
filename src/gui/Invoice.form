@@ -671,7 +671,7 @@
           <Font name="Dialog" size="14" style="1"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="2"/>
-        <Property name="text" type="java.lang.String" value="Payment"/>
+        <Property name="text" type="java.lang.String" value="Payment Method"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel25">

@@ -206,10 +206,13 @@ public class Invoice extends javax.swing.JFrame {
             if (paymentMethod.equals("Cash")) {
                 // cash
                 balance = payment - total;
+                paymentField.setEditable(true);
             } else {
                 // card
                 payment = total;
                 balance = 0;
+                paymentField.setText(String.valueOf(payment));
+                paymentField.setEditable(false);
             }
 
             jFormattedTextField6.setText(String.valueOf(balance));
@@ -597,7 +600,7 @@ public class Invoice extends javax.swing.JFrame {
 
         jLabel22.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel22.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel22.setText("Payment");
+        jLabel22.setText("Payment Method");
 
         jLabel25.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel25.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
