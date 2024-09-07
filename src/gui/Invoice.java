@@ -212,9 +212,7 @@ public class Invoice extends javax.swing.JFrame {
                 balance = 0;
             }
 
-            jFormattedTextField3.setText(String.valueOf(total));
-
-//            balance = total - discount - payment;
+            jFormattedTextField3.setText(String.valueOf(balance));
         }
     }
 
