@@ -212,7 +212,7 @@ public class Invoice extends javax.swing.JFrame {
                 balance = 0;
             }
 
-            jFormattedTextField3.setText(String.valueOf(balance));
+            jFormattedTextField6.setText(String.valueOf(balance));
         }
     }
 
