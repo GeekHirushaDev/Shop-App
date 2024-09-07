@@ -117,6 +117,10 @@ public class Invoice extends javax.swing.JFrame {
     public JLabel getProductAvailableQTY() {
         return jLabel23;
     }
+    
+    public JTextField getAvailablePoints(){
+        return jTextField4;
+    }
 
     /**
      * Creates new form Invoice
@@ -208,7 +212,7 @@ public class Invoice extends javax.swing.JFrame {
                 balance = 0;
             }
 
-            jFormattedTextField3.setText(String.valueOf(this));
+            jFormattedTextField3.setText(String.valueOf(total));
 
 //            balance = total - discount - payment;
         }

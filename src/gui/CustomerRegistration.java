@@ -22,7 +22,7 @@ public class CustomerRegistration extends javax.swing.JFrame {
     public void setInvoice(Invoice invoice) {
         this.invoice = invoice;
     }
-    
+
     /**
      * Creates new form CustomerRegistration
      */
@@ -341,16 +341,15 @@ public class CustomerRegistration extends javax.swing.JFrame {
         jTextField2.setText(fname);
         jTextField3.setText(lname);
         jTextField4.setText(email);
-        
-        
+
         if (evt.getClickCount() == 2) {
             if (invoice != null) {
                 invoice.getCustomerMobile().setText(String.valueOf(jTable1.getValueAt(row, 0)));
                 invoice.getCustomerName().setText(String.valueOf(jTable1.getValueAt(row, 1)) + " " + String.valueOf(jTable1.getValueAt(row, 2)));
+                invoice.getAvailablePoints().setText(String.valueOf(jTable1.getValueAt(row, 4)));
                 this.dispose();
             }
         }
-        
 
         try {
 
